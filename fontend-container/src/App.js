@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./App.css";
+import axios from "axios";
+import "./App.css";
 
 function App() {
   const [isLogin, setIsLogin] = useState(true);
@@ -13,6 +15,7 @@ function App() {
   });
 
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
   // Handle input change
   const handleChange = (e) => {
@@ -54,17 +57,41 @@ function App() {
   };
 
   // Handle form submit
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validate()) {
+    if (!validate()) return;
+
+    setLoading(true);
+    try {
       if (isLogin) {
-        alert(`✅ Logged in as ${formData.email}`);
+        // 👉 CALL API LOGIN
+        const res = await axios.post("http://localhost:5000/api/login", {
+          email: formData.email,
+          password: formData.password,
+        });
+        alert("✅ Login success: " + res.data.message);
+
+        // Lưu token vào localStorage nếu có
+        if (res.data.token) {
+          localStorage.setItem("token", res.data.token);
+        }
       } else {
-        alert(`✅ Account created for ${formData.name}`);
+        // 👉 CALL API SIGNUP
+        const res = await axios.post("http://localhost:5000/api/signup", {
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+        });
+        alert("✅ Signup success: " + res.data.message);
       }
-      // Reset form after success
+
+      // Reset form sau khi thành công
       setFormData({ name: "", email: "", password: "", confirmPassword: "" });
       setErrors({});
+    } catch (err) {
+      alert("❌ Error: " + (err.response?.data?.message || err.message));
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -135,8 +162,8 @@ function App() {
           )}
 
           {/* Submit button */}
-          <button type="submit" className="btn">
-            {isLogin ? "Login" : "Sign Up"}
+          <button type="submit" className="btn" disabled={loading}>
+            {loading ? "Processing..." : isLogin ? "Login" : "Sign Up"}
           </button>
         </form>
 
