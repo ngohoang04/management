@@ -1,0 +1,16 @@
+# Ignore system files
+$RECYCLE.BIN/
+System Volume Information/
+Config.Msi/
+
+# Ignore installers and temporary files
+*.exe
+*.zip
+*.msi
+*.log
+*.tmp
+
+# Ignore IDE and editor files
+*.lnk
+*.vpp
+*.bak*
