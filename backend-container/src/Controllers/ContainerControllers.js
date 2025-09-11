@@ -5,25 +5,28 @@ export async function getContainers(req, res) {
     try {
         const containers = await db.Container.findAll();
         res.status(200).json({
+            success: true,
             message: 'List of containers',
             data: containers
         });
     } catch (error) {
-        console.gerror('Error fetching containers:', error);
-        res.status(500).json({ message: 'Error fetching containers' });
+        console.error('Error fetching containers:', error);
+        res.status(500).json({ success: false, message: 'Error fetching containers' });
     }
 }
+
 
 export async function insertContainer(req, res) {
     try {
         const container = await db.Container.create(req.body);
         res.status(201).json({
             message: 'Container inserted',
-            data: container
+            data: container,
+            success: true,
         });
     } catch (error) {
         console.error('Error inserting container:', error);
-        res.status(500).json({ message: 'Error inserting container' });
+        res.status(500).json({ success: false, message: 'Error inserting container' });
     }
 }
 
@@ -37,14 +40,15 @@ export async function updateContainer(req, res) {
             const updatedContainer = await db.Container.findByPk(id);
             res.status(200).json({
                 message: 'Container updated',
-                data: updatedContainer
+                data: updatedContainer,
+                success: true
             });
         } else {
-            res.status(404).json({ message: 'Container not found' });
+            res.status(404).json({ success: false, message: 'Container not found' });
         }
     } catch (error) {
         console.error('Error updating container:', error);
-        res.status(500).json({ message: 'Error updating container' });
+        res.status(500).json({ success: false, message: 'Error updating container' });
     }
 }
 
@@ -55,13 +59,13 @@ export async function deleteContainer(req, res) {
             where: { id }
         });
         if (deleted) {
-            res.status(200).json({ message: 'Container deleted' });
+            res.status(200).json({ success: true, message: 'Container deleted' });
         } else {
-            res.status(404).json({ message: 'Container not found' });
+            res.status(404).json({ success: false, message: 'Container not found' });
         }
     } catch (error) {
         console.error('Error deleting container:', error);
-        res.status(500).json({ message: 'Error deleting container' });
+        res.status(500).json({ success: false, message: 'Error deleting container' });
     }
 }
 
@@ -72,13 +76,14 @@ export async function getContainerById(req, res) {
         if (container) {
             res.status(200).json({
                 message: 'Container details',
-                data: container
+                data: container,
+                success: true
             });
         } else {
-            res.status(404).json({ message: 'Container not found' });
+            res.status(404).json({ success: false, message: 'Container not found' });
         }
     } catch (error) {
         console.error('Error fetching container by ID:', error);
-        res.status(500).json({ message: 'Error fetching container by ID' });
+        res.status(500).json({ success: false, message: 'Error fetching container by ID' });
     }
 }
