@@ -1,26 +1,65 @@
-import express from 'express';
-import * as UserControllers from './controllers/UserControllers.js';
-import * as ContainerControllers from './controllers/ContainerControllers.js';
-
+const express = require("express");
 const router = express.Router();
 
-function AppRoute(app) {
+const UserControllers = require("../Controllers/UsersControllers.js");
+const ContainerControllers = require("../Controllers/ContainerControllers.js");
+const CustomerController = require("../Controllers/CustomerController.js");
+const LocationController = require("../Controllers/LocationController.js");
+const MovementControllers = require("../Controllers/MovementControllers.js");
+const BookingController = require("../Controllers/BookingControllers.js");
+const { verifyToken } = require("../utils/jwt.js");
 
-    // user routers
-    router.get('/users', UserControllers.getUsers);
-    router.post('/users', UserControllers.insertUser);
-    router.put('/users/:id', UserControllers.updateUser);
-    router.delete('/users/:id', UserControllers.deleteUser);
-    router.get('/users/:id', UserControllers.getUserById);
+router.post("/auth/register", UserControllers.register);
+router.post("/auth/login", UserControllers.login);
 
-    // container routers
-    router.get('/containers', ContainerControllers.getContainers);
-    router.post('/containers', ContainerControllers.insertContainer);
-    router.put('/containers/:id', ContainerControllers.updateContainer);
-    router.delete('/containers/:id', ContainerControllers.deleteContainer);
-    router.get('/containers/:id', ContainerControllers.getContainerById);
+// User routes
+router.get("/users", UserControllers.getUsers);
 
-    app.use('/', router);
-}
+router.put("/users/:id", UserControllers.updateUser);
+router.delete("/users/:id", UserControllers.deleteUser);
+router.get("/users/:id", UserControllers.getUserById);
 
-export default AppRoute;
+// User login
+router.post("/auth/login", UserControllers.login);
+
+// User registration
+router.post("/auth/register", UserControllers.register);
+
+// Container routes
+router.get("/containers", ContainerControllers.getContainers);
+router.post("/containers", ContainerControllers.insertContainer);
+router.put("/containers/:id", ContainerControllers.updateContainer);
+router.delete("/containers/:id", ContainerControllers.deleteContainer);
+router.get("/containers/:id", ContainerControllers.getContainerById);
+
+// Customer routes
+router.get("/customers", CustomerController.getCustomers);
+router.get("/customers/:id", CustomerController.getCustomerById);
+router.post("/customers", CustomerController.createCustomer);
+router.put("/customers/:id", CustomerController.updateCustomer);
+router.delete("/customers/:id", CustomerController.deleteCustomer);
+
+// Location routes
+
+router.get("/locations", LocationController.getLocations);
+router.get("/locations/:id", LocationController.getLocationById);
+router.post("/locations", LocationController.createLocation);
+router.put("/locations/:id", LocationController.updateLocation);
+router.delete("/locations/:id", LocationController.deleteLocation);
+
+// Movement routes
+router.get("/movements", MovementControllers.getMovements);
+router.post("/movements", MovementControllers.createMovement);
+router.get("/movements/:id", MovementControllers.getMovementById);
+router.put("/movements/:id", MovementControllers.updateMovement);
+router.delete("/movements/:id", MovementControllers.deleteMovement);
+
+// Booking routes
+router.get("/bookings", BookingController.getBookings);
+router.post("/bookings", BookingController.createBooking);
+router.get("/bookings/:id", BookingController.getBookingById);
+router.put("/bookings/:id", BookingController.updateBooking);
+router.delete("/bookings/:id", BookingController.deleteBooking);
+
+module.exports = router;
+

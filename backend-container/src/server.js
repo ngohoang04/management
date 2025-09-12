@@ -1,9 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-require('dotenv').config();
-
+const dotenv = require('dotenv');
+const webRoutes = require('./route/web.js');
 const configViewEngine = require('./config/viewEngine');
-const webRoutes = require('./route/web');
+
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -16,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 configViewEngine(app);
 
 // Routes
-app.use('/', webRoutes);
+app.use('/api', webRoutes);  // chạy ok
 
 // Start server
 app.listen(PORT, () => {

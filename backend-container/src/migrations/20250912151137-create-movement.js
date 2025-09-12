@@ -2,31 +2,31 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('exportreceipts', {
+    await queryInterface.createTable('Movements', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      container_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'containers',
-          key: 'id'
-        },
-      },
-      customer_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'customers',
-          key: 'id'
-        },
-      },
-      created_by: {
+      containerId: {
         type: Sequelize.INTEGER
+      },
+      fromLocationId: {
+        type: Sequelize.INTEGER
+      },
+      toLocationId: {
+        type: Sequelize.INTEGER
+      },
+      departureTime: {
+        type: Sequelize.DATE
+      },
+      arrivalTime: {
+        type: Sequelize.DATE
+      },
+      status: {
+        type: Sequelize.ENUM('Planned', 'In Transit', 'Arrived', 'Delayed'),
+        defaultValue: 'Planned'
       },
       createdAt: {
         allowNull: false,
@@ -39,6 +39,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('exportreceipts');
+    await queryInterface.dropTable('Movements');
   }
 };

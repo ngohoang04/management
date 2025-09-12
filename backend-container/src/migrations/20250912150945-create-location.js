@@ -2,29 +2,22 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('cargos', {
+    await queryInterface.createTable('Locations', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      container_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'containers',
-          key: 'id'
-        },
+      name: {
+        type: Sequelize.STRING
       },
-      description: {
-        type: Sequelize.TEXT
+      address: {
+        type: Sequelize.STRING
       },
-      weight: {
-        type: Sequelize.INTEGER
-      },
-      volume: {
-        type: Sequelize.INTEGER
+      type: {
+        type: Sequelize.ENUM('Port', 'Warehouse', 'Depot'),
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
@@ -37,6 +30,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('cargos');
+    await queryInterface.dropTable('Locations');
   }
 };
