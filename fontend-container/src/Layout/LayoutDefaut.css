@@ -1,0 +1,242 @@
+/* src/components/Header/Header.css */
+.header {
+  background-color: #fff;
+  padding: 15px 30px;
+  /* A more subtle and modern shadow */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08); 
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.logo-text {
+  font-weight: 900;
+  font-size: 24px;
+  color: #333; /* Ensure color is defined for consistency */
+  cursor: pointer; /* Indicates it's clickable */
+}
+
+.navigation ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  gap: 30px; /* Increased gap for better spacing */
+}
+
+.navigation a {
+  text-decoration: none;
+  color: #555; /* A slightly softer black for better readability */
+  font-weight: 700;
+  font-size: 16px;
+  transition: color 0.3s ease-in-out; /* Added `ease-in-out` for smoother transition */
+  padding: 5px 0; /* Add some padding for a larger clickable area */
+  position: relative; /* Used for the bottom-border hover effect */
+}
+
+.navigation a:hover {
+  color: #8A2BE2; /* Màu tím giống hero section */
+}
+
+/* Optional: Add a subtle underline on hover */
+.navigation a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #8A2BE2;
+  transition: width 0.3s ease-in-out;
+}
+
+.navigation a:hover::after {
+  width: 100%;
+}
+
+.phone-number {
+  background-color: #1E90FF;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease-in-out; /* Smooth transition for hover effect */
+}
+
+.phone-number:hover {
+  background-color: #007BFF; /* A slightly darker blue on hover */
+}
+
+
+
+
+/* footer */
+
+/* src/components/Footer/Footer.css */
+.footer-container {
+    background-color: #212529;
+    color: #adb5bd;
+    padding: 60px 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+}
+
+.footer-main {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #343a40;
+}
+
+.footer-logo-col img {
+    height: 40px;
+    margin-bottom: 15px;
+}
+
+.footer-logo-col p {
+    font-size: 14px;
+}
+
+.footer-link-col h4,
+.footer-newsletter-col h4 {
+    color: #f8f9fa;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.footer-link-col h4::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 50px;
+    height: 3px;
+    background-color: #007bff;
+    border-radius: 2px;
+}
+
+.footer-link-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-link-col li {
+    margin-bottom: 12px;
+}
+
+.footer-link-col a {
+    color: #adb5bd;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out, transform 0.2s ease;
+}
+
+.footer-link-col a:hover {
+    color: #fff;
+    transform: translateX(5px);
+}
+
+.newsletter-form {
+    display: flex;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.newsletter-form input {
+    border: none;
+    padding: 12px 15px;
+    background-color: #343a40;
+    color: #f8f9fa;
+    outline: none;
+    flex-grow: 1;
+}
+
+.newsletter-form input::placeholder {
+    color: #999;
+}
+
+.newsletter-form button {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.newsletter-form button:hover {
+    background-color: #0056b3;
+}
+
+.footer-back-to-top {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.footer-back-to-top a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #adb5bd;
+    text-decoration: none;
+    margin-bottom: 15px;
+    transition: color 0.3s ease-in-out;
+}
+
+.footer-back-to-top a:hover {
+    color: #fff;
+}
+
+.footer-back-to-top img {
+    width: 100px;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.footer-back-to-top img:hover {
+    opacity: 1;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 30px;
+    border-top: 1px solid #343a40;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .footer-main {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .footer-link-col h4::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .footer-back-to-top {
+        align-items: center;
+    }
+}
