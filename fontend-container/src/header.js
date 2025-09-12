@@ -1,5 +1,5 @@
-import React from 'react';
-import './header.css';
+import React from "react";
+import "./header.css";
 // import logo from '../../assets/logo.svg'; // Bạn có thể thêm logo của mình ở đây
 
 const Header = () => {
@@ -12,15 +12,27 @@ const Header = () => {
         </div>
         <nav className="navigation">
           <ul>
-            <li><a href="#gioi-thieu">Giới thiệu</a></li>
-            <li><a href="#dich-vu">Dịch vụ</a></li>
-            <li><a href="#du-an">Dự án</a></li>
-            <li><a href="#khach-hang">Khách hàng</a></li>
-            <li><a href="#blog">Blog</a></li>
+            <li>
+              <a href="#gioi-thieu">Giới thiệu</a>
+            </li>
+            <li>
+              <a href="#dich-vu">Dịch vụ</a>
+            </li>
+            <li>
+              <a href="#du-an">Dự án</a>
+            </li>
+            <li>
+              <a href="#khach-hang">Khách hàng</a>
+            </li>
+            <li>
+              <a href="#blog">Blog</a>
+            </li>
           </ul>
         </nav>
         <div className="contact-info">
-          <a href="tel:1900636648" className="phone-number">1900 636 648</a>
+          <a href="tel:1900636648" className="phone-number">
+            1900 636 648
+          </a>
         </div>
       </div>
     </header>
