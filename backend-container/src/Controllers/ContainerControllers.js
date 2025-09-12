@@ -1,63 +1,51 @@
 // controllers/ContainerControllers.js
 import db from '../models/index.js';
-import { Sequelize } from "sequelize";
+
 export async function getContainers(req, res) {
     try {
-        const containers = await db.Container.findAll();
-        res.status(200).json({
-            success: true,
-            message: 'List of containers',
-            data: containers
+        const containers = await db.Container.findAll({
+            include: [
+                { model: db.Location, attributes: ['id', 'name', 'type'] },
+                { model: db.Customer, attributes: ['id', 'name', 'phone'] }
+            ]
         });
+        res.status(200).json({ success: true, message: 'List of containers', data: containers });
     } catch (error) {
         console.error('Error fetching containers:', error);
         res.status(500).json({ success: false, message: 'Error fetching containers' });
     }
 }
 
-
 export async function insertContainer(req, res) {
     try {
-        const container = await db.Container.create(req.body);
-        res.status(201).json({
-            message: 'Container inserted',
-            data: container,
-            success: true,
-        });
+        const { code, type, size, weight, status, locationId, ownerId } = req.body;
+        const container = await db.Container.create({ code, type, size, weight, status, locationId, ownerId });
+        res.status(201).json({ success: true, message: 'Container inserted', data: container });
     } catch (error) {
         console.error('Error inserting container:', error);
-        res.status(500).json({ success: false, message: 'Error inserting container' });
+        res.status(400).json({ success: false, message: error.message });
     }
 }
 
 export async function updateContainer(req, res) {
     try {
         const { id } = req.params;
-        const [updated] = await db.Container.update(req.body, {
-            where: { id }
-        });
-        if (updated) {
-            const updatedContainer = await db.Container.findByPk(id);
-            res.status(200).json({
-                message: 'Container updated',
-                data: updatedContainer,
-                success: true
-            });
-        } else {
-            res.status(404).json({ success: false, message: 'Container not found' });
-        }
+        const container = await db.Container.findByPk(id);
+        if (!container) return res.status(404).json({ success: false, message: 'Container not found' });
+
+        const { code, type, size, weight, status, locationId, ownerId } = req.body;
+        await container.update({ code, type, size, weight, status, locationId, ownerId });
+        res.status(200).json({ success: true, message: 'Container updated', data: container });
     } catch (error) {
         console.error('Error updating container:', error);
-        res.status(500).json({ success: false, message: 'Error updating container' });
+        res.status(400).json({ success: false, message: error.message });
     }
 }
 
 export async function deleteContainer(req, res) {
     try {
         const { id } = req.params;
-        const deleted = await db.Container.destroy({
-            where: { id }
-        });
+        const deleted = await db.Container.destroy({ where: { id } });
         if (deleted) {
             res.status(200).json({ success: true, message: 'Container deleted' });
         } else {
@@ -72,13 +60,14 @@ export async function deleteContainer(req, res) {
 export async function getContainerById(req, res) {
     try {
         const { id } = req.params;
-        const container = await db.Container.findByPk(id);
+        const container = await db.Container.findByPk(id, {
+            include: [
+                { model: db.Location, attributes: ['id', 'name', 'type'] },
+                { model: db.Customer, attributes: ['id', 'name', 'phone'] }
+            ]
+        });
         if (container) {
-            res.status(200).json({
-                message: 'Container details',
-                data: container,
-                success: true
-            });
+            res.status(200).json({ success: true, message: 'Container details', data: container });
         } else {
             res.status(404).json({ success: false, message: 'Container not found' });
         }

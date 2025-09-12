@@ -2,14 +2,14 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('containers', {
+    await queryInterface.createTable('Containers', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      container_code: {
+      code: {
         type: Sequelize.STRING
       },
       type: {
@@ -18,8 +18,18 @@ module.exports = {
       size: {
         type: Sequelize.STRING
       },
+      weight: {
+        type: Sequelize.DECIMAL
+      },
       status: {
-        type: Sequelize.STRING
+        type: Sequelize.ENUM('Available', 'In Use', 'Damaged', 'Maintenance'),
+        defaultValue: 'Available'
+      },
+      locationId: {
+        type: Sequelize.INTEGER
+      },
+      ownerId: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -32,6 +42,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('containers');
+    await queryInterface.dropTable('Containers');
   }
 };

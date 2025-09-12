@@ -4,7 +4,12 @@ const db = require("../models");
 // Lấy danh sách khách hàng
 exports.getCustomers = async (req, res) => {
     try {
-        const customers = await db.Customer.findAll();
+        const customers = await db.Customer.findAll({
+            include: [
+                { model: db.Container, attributes: ["id", "code", "status"] },
+                { model: db.Booking, attributes: ["id", "code", "status", "bookingDate"] }
+            ]
+        });
         res.status(200).json({ success: true, data: customers });
     } catch (error) {
         console.error("Error fetching customers:", error);
@@ -15,7 +20,13 @@ exports.getCustomers = async (req, res) => {
 // Lấy 1 khách hàng theo ID
 exports.getCustomerById = async (req, res) => {
     try {
-        const customer = await db.Customer.findByPk(req.params.id);
+        const customer = await db.Customer.findByPk(req.params.id, {
+            include: [
+                { model: db.Container, attributes: ["id", "code", "status"] },
+                { model: db.Booking, attributes: ["id", "code", "status", "bookingDate"] }
+            ]
+        });
+
         if (!customer) {
             return res.status(404).json({ success: false, message: "Customer not found" });
         }
@@ -30,6 +41,11 @@ exports.getCustomerById = async (req, res) => {
 exports.createCustomer = async (req, res) => {
     try {
         const { name, phone, email, address } = req.body;
+
+        if (!name || !phone) {
+            return res.status(400).json({ success: false, message: "Name and phone are required" });
+        }
+
         const customer = await db.Customer.create({ name, phone, email, address });
         res.status(201).json({ success: true, data: customer });
     } catch (error) {
@@ -45,7 +61,14 @@ exports.updateCustomer = async (req, res) => {
         if (!customer) {
             return res.status(404).json({ success: false, message: "Customer not found" });
         }
-        await customer.update(req.body);
+
+        const { name, phone, email, address } = req.body;
+
+        if (!name || !phone) {
+            return res.status(400).json({ success: false, message: "Name and phone are required" });
+        }
+
+        await customer.update({ name, phone, email, address });
         res.status(200).json({ success: true, data: customer });
     } catch (error) {
         console.error("Error updating customer:", error);
@@ -56,7 +79,7 @@ exports.updateCustomer = async (req, res) => {
 // Xóa khách hàng
 exports.deleteCustomer = async (req, res) => {
     try {
-        const deleted = await db.Customer.destroy({ where: { customer_id: req.params.id } });
+        const deleted = await db.Customer.destroy({ where: { id: req.params.id } });
         if (!deleted) {
             return res.status(404).json({ success: false, message: "Customer not found" });
         }

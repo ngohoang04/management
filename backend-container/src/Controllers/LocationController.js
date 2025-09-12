@@ -30,6 +30,10 @@ exports.getLocationById = async (req, res) => {
 exports.createLocation = async (req, res) => {
     try {
         const { name, address, type } = req.body;
+        if (!name || !type) {
+            return res.status(400).json({ success: false, message: "Name and type are required" });
+        }
+
         const location = await db.Location.create({ name, address, type });
         res.status(201).json({ success: true, data: location });
     } catch (error) {
@@ -45,7 +49,9 @@ exports.updateLocation = async (req, res) => {
         if (!location) {
             return res.status(404).json({ success: false, message: "Location not found" });
         }
-        await location.update(req.body);
+
+        const { name, address, type } = req.body;
+        await location.update({ name, address, type });
         res.status(200).json({ success: true, data: location });
     } catch (error) {
         console.error("Error updating location:", error);
@@ -56,7 +62,7 @@ exports.updateLocation = async (req, res) => {
 // Xóa location
 exports.deleteLocation = async (req, res) => {
     try {
-        const deleted = await db.Location.destroy({ where: { location_id: req.params.id } });
+        const deleted = await db.Location.destroy({ where: { id: req.params.id } });
         if (!deleted) {
             return res.status(404).json({ success: false, message: "Location not found" });
         }

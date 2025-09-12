@@ -4,8 +4,10 @@ const router = express.Router();
 const UserControllers = require("../Controllers/UsersControllers.js");
 const ContainerControllers = require("../Controllers/ContainerControllers.js");
 const CustomerController = require("../Controllers/CustomerController.js");
-const { verifyToken } = require("../utils/jwt.js");
 const LocationController = require("../Controllers/LocationController.js");
+const MovementControllers = require("../Controllers/MovementControllers.js");
+const BookingController = require("../Controllers/BookingController.js");
+const { verifyToken } = require("../utils/jwt.js");
 
 router.post("/auth/register", UserControllers.register);
 router.post("/auth/login", UserControllers.login);
@@ -16,6 +18,12 @@ router.post("/users", UserControllers.insertUser);
 router.put("/users/:id", UserControllers.updateUser);
 router.delete("/users/:id", UserControllers.deleteUser);
 router.get("/users/:id", UserControllers.getUserById);
+
+// User login
+router.post("/auth/login", UserControllers.login);
+
+// User registration
+router.post("/auth/register", UserControllers.register);
 
 // Container routes
 router.get("/containers", verifyToken, ContainerControllers.getContainers);
@@ -38,6 +46,20 @@ router.get("/locations/:id", LocationController.getLocationById);
 router.post("/locations", LocationController.createLocation);
 router.put("/locations/:id", LocationController.updateLocation);
 router.delete("/locations/:id", LocationController.deleteLocation);
+
+// Movement routes
+router.get("/movements", MovementControllers.getMovements);
+router.post("/movements", MovementControllers.createMovement);
+router.get("/movements/:id", MovementControllers.getMovementById);
+router.put("/movements/:id", MovementControllers.updateMovement);
+router.delete("/movements/:id", MovementControllers.deleteMovement);
+
+// Booking routes
+router.get("/bookings", BookingController.getBookings);
+router.post("/bookings", BookingController.createBooking);
+router.get("/bookings/:id", BookingController.getBookingById);
+router.put("/bookings/:id", BookingController.updateBooking);
+router.delete("/bookings/:id", BookingController.deleteBooking);
 
 module.exports = router;
 

@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class container extends Model {
+  class Container extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,23 +11,30 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-
-      container.belongsTo(models.warehouse, { foreignKey: 'warehouse_id', as: 'warehouseData' })
-
+      this.belongsTo(models.Customer, { foreignKey: 'ownerId' });
+      // Container đang ở 1 location
+      this.belongsTo(models.Location, { foreignKey: 'locationId' });
+      // Container có nhiều movement (lịch trình)
+      this.hasMany(models.Movement, { foreignKey: 'containerId' });
+      // Container có thể thuộc nhiều booking thông qua bảng trung gian
+      this.belongsToMany(models.Booking, {
+        through: models.BookingContainer,
+        foreignKey: 'containerId',
+        otherKey: 'bookingId'
+      });
     }
   }
-  container.init({
-    container_code: DataTypes.STRING,
+  Container.init({
+    code: DataTypes.STRING,
     type: DataTypes.STRING,
     size: DataTypes.STRING,
+    weight: DataTypes.DECIMAL,
     status: DataTypes.STRING,
-    warehouse_id: DataTypes.INTEGER,
-    container_id: DataTypes.INTEGER
+    locationId: DataTypes.INTEGER,
+    ownerId: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'container',
-    tableName: 'containers',
-    underscored: true
+    modelName: 'Container',
   });
-  return container;
+  return Container;
 };
