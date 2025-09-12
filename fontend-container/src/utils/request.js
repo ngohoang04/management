@@ -1,4 +1,4 @@
-const APT_DOMAIN = "ttp://localhost:3000/" ;
+const APT_DOMAIN = "http://localhost:5000/" ;
 
 export const get = async (path) => {
     const response = await fetch(APT_DOMAIN + path );

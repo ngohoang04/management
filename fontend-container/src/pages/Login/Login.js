@@ -1,11 +1,27 @@
 import React, { useState } from 'react';
 import './Login.css';
+import { Login as performLogin } from '../../service/UserService';
+import { useNavigate } from 'react-router-dom';
+// import { setCookie, getCookie } from '../../helpers/cookie';
 
 const Login = () => {
-   
-    const handleSubmit = (e) => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(e) ; 
+        
+        const response = await performLogin(email, password);
+        console.log(response);
+    
+
+        if (response.length > 0) {
+            alert('Đăng nhập thành công!');
+            navigate('/');
+        } else {
+            alert('Đăng nhập thất bại. Vui lòng kiểm tra lại email và mật khẩu.');
+        } 
     };
 
     return (
@@ -15,11 +31,9 @@ const Login = () => {
                 <label htmlFor="email">Email</label>
                 <input
                     type="email"
-                    // id="email
-                    // value={email}"
-                    // onChange={(e) => setEmail(e.target.value)}
-                    // required
-
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
                     placeholder='Nhập email'
                 />
             </div>
@@ -27,11 +41,9 @@ const Login = () => {
                 <label htmlFor="password">Mật khẩu</label>
                 <input
                     type="password"
-                    // id="password"
-                    // value={password}
-                    // onChange={(e) => setPassword(e.target.value)}
-                    // required 
-
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
                     placeholder='Nhập mật khẩu'
                 />
             </div>
