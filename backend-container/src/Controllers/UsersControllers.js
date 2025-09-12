@@ -30,13 +30,14 @@ const register = async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await db.User.create({ name, email, password: hashedPassword });
+        const user = await db.User.create({ name, email, passwordHash: hashedPassword });
 
-        const { password: _, ...userData } = user.toJSON(); // xoá password
+        const { passwordHash: _, ...userData } = user.toJSON(); // xoá password
         res.status(201).json({ success: true, message: "User registered successfully", data: userData });
     } catch (error) {
-        console.error("Register error:", error);
-        res.status(500).json({ success: false, message: "Error registering user" });
+        console.error("Register error:", error.message);
+        console.error(error.stack);
+        res.status(500).json({ success: false, message: error.message });
     }
 };
 
@@ -48,13 +49,13 @@ const login = async (req, res) => {
         const user = await db.User.findOne({ where: { email } });
         if (!user) return res.status(404).json({ success: false, message: "User not found" });
 
-        const isMatch = await bcrypt.compare(password, user.password);
+        const isMatch = await bcrypt.compare(password, user.passwordHash);
         if (!isMatch) return res.status(401).json({ success: false, message: "Invalid credentials" });
 
         const token = generateToken(user);
         res.status(200).json({ success: true, message: "Login successful", token });
     } catch (error) {
-        console.error("Login error:", error);
+        console.error("Login error:", error.message);
         res.status(500).json({ success: false, message: "Error logging in" });
     }
 };
@@ -90,7 +91,7 @@ const updateUser = async (req, res) => {
         let { password, ...rest } = req.body;
         if (password) {
             password = await bcrypt.hash(password, 10);
-            await user.update({ ...rest, password });
+            await user.update({ ...rest, hashedPassword });
         } else {
             await user.update(rest);
         }

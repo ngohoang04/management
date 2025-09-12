@@ -6,15 +6,15 @@ const ContainerControllers = require("../Controllers/ContainerControllers.js");
 const CustomerController = require("../Controllers/CustomerController.js");
 const LocationController = require("../Controllers/LocationController.js");
 const MovementControllers = require("../Controllers/MovementControllers.js");
-const BookingController = require("../Controllers/BookingController.js");
+const BookingController = require("../Controllers/BookingControllers.js");
 const { verifyToken } = require("../utils/jwt.js");
 
 router.post("/auth/register", UserControllers.register);
 router.post("/auth/login", UserControllers.login);
 
 // User routes
-router.get("/users", verifyToken, UserControllers.getUsers);
-router.post("/users", UserControllers.insertUser);
+router.get("/users", UserControllers.getUsers);
+
 router.put("/users/:id", UserControllers.updateUser);
 router.delete("/users/:id", UserControllers.deleteUser);
 router.get("/users/:id", UserControllers.getUserById);
@@ -26,11 +26,11 @@ router.post("/auth/login", UserControllers.login);
 router.post("/auth/register", UserControllers.register);
 
 // Container routes
-router.get("/containers", verifyToken, ContainerControllers.getContainers);
-router.post("/containers", verifyToken, ContainerControllers.insertContainer);
-router.put("/containers/:id", verifyToken, ContainerControllers.updateContainer);
-router.delete("/containers/:id", verifyToken, ContainerControllers.deleteContainer);
-router.get("/containers/:id", verifyToken, ContainerControllers.getContainerById);
+router.get("/containers", ContainerControllers.getContainers);
+router.post("/containers", ContainerControllers.insertContainer);
+router.put("/containers/:id", ContainerControllers.updateContainer);
+router.delete("/containers/:id", ContainerControllers.deleteContainer);
+router.get("/containers/:id", ContainerControllers.getContainerById);
 
 // Customer routes
 router.get("/customers", CustomerController.getCustomers);
