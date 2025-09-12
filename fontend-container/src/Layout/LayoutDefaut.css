@@ -1,87 +1,75 @@
-/* src/components/Header/Header.css */
+/* src/components/Layout/LayoutDefaut.css */
+
+/* Header Styles */
 .header {
-  background-color: #fff;
-  padding: 15px 30px;
-  /* A more subtle and modern shadow */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08); 
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+    background-color: #fff;
+    padding: 15px 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .header-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 1400px;
-  margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
 .logo-text {
-  font-weight: 900;
-  font-size: 24px;
-  color: #333; /* Ensure color is defined for consistency */
-  cursor: pointer; /* Indicates it's clickable */
+    font-weight: 900;
+    font-size: 24px;
+    color: #333;
 }
 
 .navigation ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  gap: 30px; /* Increased gap for better spacing */
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    gap: 25px;
 }
 
 .navigation a {
-  text-decoration: none;
-  color: #555; /* A slightly softer black for better readability */
-  font-weight: 700;
-  font-size: 16px;
-  transition: color 0.3s ease-in-out; /* Added `ease-in-out` for smoother transition */
-  padding: 5px 0; /* Add some padding for a larger clickable area */
-  position: relative; /* Used for the bottom-border hover effect */
+    text-decoration: none;
+    color: #333;
+    font-weight: 700;
+    font-size: 16px;
+    transition: color 0.3s, border-bottom 0.3s;
+    padding-bottom: 5px; /* Add space for the underline */
 }
 
 .navigation a:hover {
-  color: #8A2BE2; /* Màu tím giống hero section */
+    color: #8A2BE2; /* Hero section purple color */
 }
 
-/* Optional: Add a subtle underline on hover */
-.navigation a::after {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: 0;
-  left: 0;
-  background-color: #8A2BE2;
-  transition: width 0.3s ease-in-out;
+.navigation .active {
+    color: #8A2BE2;
+    border-bottom: 2px solid #8A2BE2;
 }
 
-.navigation a:hover::after {
-  width: 100%;
+.Login a {
+    background-color: #1E90FF;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
 }
 
-.phone-number {
-  background-color: #1E90FF;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 20px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: background-color 0.3s ease-in-out; /* Smooth transition for hover effect */
+.Login a:hover {
+    background-color: #1a73e8; /* Slightly darker blue */
 }
 
-.phone-number:hover {
-  background-color: #007BFF; /* A slightly darker blue on hover */
+/* Main Content Styles */
+.main-content {
+    min-height: calc(100vh - 120px); /* Adjust based on header/footer height */
 }
 
-
-
-
-/* footer */
-
-/* src/components/Footer/Footer.css */
+/* Footer Styles (Based on previous conversation) */
 .footer-container {
     background-color: #212529;
     color: #adb5bd;
@@ -98,11 +86,6 @@
     margin: 0 auto;
     padding-bottom: 40px;
     border-bottom: 1px solid #343a40;
-}
-
-.footer-logo-col img {
-    height: 40px;
-    margin-bottom: 15px;
 }
 
 .footer-logo-col p {
@@ -205,16 +188,6 @@
 
 .footer-back-to-top a:hover {
     color: #fff;
-}
-
-.footer-back-to-top img {
-    width: 100px;
-    opacity: 0.8;
-    transition: opacity 0.3s ease;
-}
-
-.footer-back-to-top img:hover {
-    opacity: 1;
 }
 
 .footer-bottom {
