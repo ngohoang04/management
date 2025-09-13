@@ -5,7 +5,7 @@
     return (
             <>
             
-            Client Page
+            Introduction Page
             </>
     ); 
 }
