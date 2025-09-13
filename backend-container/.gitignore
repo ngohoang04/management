@@ -1,0 +1,24 @@
+# Node.js
+node_modules/
+
+npm-debug.log
+yarn-error.log
+
+# Build
+dist/
+build/
+
+# Others
+.env
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build output
+dist/
+build/
+
+# System files
+.DS_Store
+Thumbs.db
