@@ -58,6 +58,8 @@ const routes = [
                 path: '*',
                 element: <Error404 />
             }
+
+        
         ]
     },
     // Không cần route cho Logout, vì logout là một hành động, không phải một trang
