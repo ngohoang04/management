@@ -1,28 +1,24 @@
-// src/components/Login.js
-import React, { useState, useContext } from 'react';
+// src/components/Register.js
+import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../Auth/Auth';
-import "./Login.css"; // <-- IMPORT FILE CSS
-
-const Login = () => {
+import "./Register.css"; // <-- IMPORT FILE CSS
+const Register = () => {
     const [formData, setFormData] = useState({
+        username: '',
         email: '',
         password: '',
     });
-    const { login } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    const { email, password } = formData;
-
+    const { username, email, password } = formData;
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const onSubmit = async e => {
         e.preventDefault();
         try {
-            const res = await axios.post('/api/auth/login', formData);
-            login(res.data.token);
-            navigate('/profile'); // Chuyển hướng đến trang profile sau khi đăng nhập
+            await axios.post('/api/auth/register', formData);
+            navigate('/login'); // Chuyển hướng đến trang login sau khi đăng ký thành công
         } catch (err) {
             console.error(err.response.data);
             // Thêm logic hiển thị lỗi cho người dùng ở đây
@@ -32,15 +28,28 @@ const Login = () => {
     return (
         <div className="auth-container">
             <div className="auth-form-card">
-                <h2 className="auth-title">Đăng nhập</h2>
+                <h2 className="auth-title">Tạo tài khoản</h2>
                 <form onSubmit={onSubmit}>
+                    <div className="form-group">
+                        <label className="form-label" htmlFor="username">Tên người dùng</label>
+                        <input
+                            type="text"
+                            id="username"
+                            className="form-input"
+                            placeholder="Nhập tên của bạn"
+                            name="username"
+                            value={username}
+                            onChange={onChange}
+                            required
+                        />
+                    </div>
                     <div className="form-group">
                         <label className="form-label" htmlFor="email">Email</label>
                         <input
                             type="email"
                             id="email"
                             className="form-input"
-                            placeholder="Nhập email của bạn"
+                            placeholder="Nhập email"
                             name="email"
                             value={email}
                             onChange={onChange}
@@ -53,7 +62,7 @@ const Login = () => {
                             type="password"
                             id="password"
                             className="form-input"
-                            placeholder="Nhập mật khẩu"
+                            placeholder="Tối thiểu 6 ký tự"
                             name="password"
                             value={password}
                             onChange={onChange}
@@ -62,15 +71,15 @@ const Login = () => {
                         />
                     </div>
                     <button type="submit" className="form-submit-btn">
-                        Đăng nhập
+                        Đăng ký
                     </button>
                 </form>
                 <p className="auth-switch-link">
-                    Chưa có tài khoản? <Link to="/register">Đăng ký ngay</Link>
+                    Đã có tài khoản? <Link to="/login">Đăng nhập</Link>
                 </p>
             </div>
         </div>
     );
 };
 
-export default Login;
+export default Register;
