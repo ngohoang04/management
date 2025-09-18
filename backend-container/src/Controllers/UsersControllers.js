@@ -96,6 +96,7 @@ const updateUser = async (req, res) => {
             await user.update(rest);
         }
 
+
         const { password: _, ...userData } = user.toJSON();
         res.status(200).json({
             success: true,
