@@ -1,105 +1,52 @@
+// src/components/Home.js
 import React from 'react';
 import './Home.css';
-import { FaRegLightbulb, FaRegHeart, FaRegGem } from 'react-icons/fa';
-import { FiUploadCloud } from 'react-icons/fi';
-
-const valuesData = [
-    {
-        icon: <FaRegGem />,
-        title: 'TÍN',
-        description: 'Chữ Tín đặt lên hàng đầu, lấy chữ Tín làm trái tim của doanh nghiệp. Tất cả công việc đều phải lấy chữ Tín làm mục tiêu, xây dựng và bảo vệ chữ Tín như cuộc sống của từng thành viên trong công ty.'
-    },
-    {
-        icon: <FaRegLightbulb />,
-        title: 'TRÍ',
-        description: 'Vận dụng Trí tuệ đỉnh cao, luôn không ngừng nghiên cứu, học hỏi để đưa vào các sản phẩm, dịch vụ với hàm lượng chất xám cao nhất, kế thừa và phát huy những tinh hoa trí tuệ của Việt Nam và Thế giới.'
-    },
-    {
-        icon: <FaRegHeart />,
-        title: 'TÂM',
-        description: 'Mọi công việc và các mối quan hệ xã hội (đồng nghiệp, đối tác, khách hàng, gia đình) đều phải được người thực hiện bằng cái Tâm, coi sản phẩm dịch vụ công ty cung cấp như sản phẩm mà mỗi cá nhân được hưởng.'
-    },
-    {
-        icon: <FiUploadCloud />,
-        title: 'TIẾN',
-        description: 'Luôn tự chủ và dũng cảm đương đầu với những khó khăn, thử thách, tiếp nhận và làm chủ những công nghệ mới nhất, tiến đến những sản phẩm hiện đại và hoàn thiện nhất.'
-    }
-];
 
 const Home = () => {
-    return (
-        <React.Fragment>
-            <div className="about-us-section">
-                <div className="about-us-content">
-                    <p className="section-subtitle">VỀ CHÚNG TÔI</p>
-                    <h2 className="section-title">Tin cậy, chuyên nghiệp</h2>
-                    <p className="section-description">Heloooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo</p>
-                </div>
-            </div>
+  return (
+    <div className="home-container">
+      <section className="hero-section">
+        <p className="subtitle">VỀ CHÚNG TÔI</p>
+        <h1 className="main-title">TIN CẬY, CHUYÊN NGHIỆP</h1>
+        <p className="hero-description">
+          Quản Lý Container là giải pháp hàng đầu, mang đến sự tiện lợi và hiệu quả tối đa cho mọi hoạt động quản lý logistics. Với kinh nghiệm lâu năm, chúng tôi cam kết mang lại giá trị bền vững cho doanh nghiệp của bạn.
+        </p>
+      </section>
 
-            <div className="hero-section">
-                <div className="hero-overlay"></div>
-                <div className="hero-content">
-                    <h1>30 Năm Tiên Phong Cung Cấp Giải Pháp Và Dịch Vụ CNTT</h1>
-                    <p>Đồng hành cùng chính phủ và doanh nghiệp trên con đường chuyển đổi số</p>
-                    <button className="hero-btn">Tìm hiểu thêm</button>
-                </div>
-            </div>
+      <section className="stats-section">
+        <div className="stats-overlay">
+          <p className="stats-text">30 NĂM TIÊN PHONG CUNG CẤP GIẢI PHÁP LOGISTICS HÀNG ĐẦU</p>
+        </div>
+      </section>
 
-            <section className="core-values-section">
-                <div className="container">
-                    <p className="section-subtitle">GIÁ TRỊ CỐT LÕI</p>
-                    <h2 className="section-title">TÍN - TRÍ - TÂM - TIẾN</h2>
-                    <div className="values-grid">
-                        {valuesData.map((value, index) => (
-                            <div className="value-card" key={index}>
-                                <div className="value-icon">{value.icon}</div>
-                                <h3 className="value-title">{value.title}</h3>
-                                <p className="value-description">{value.description}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
+      <section className="features-section">
+        <h2 className="features-title">GIẢI PHÁP TỐI ƯU CHO DOANH NGHIỆP CỦA BẠN</h2>
+        <div className="features-grid">
+          <div className="feature-card">
+            <i className="fa-solid fa-circle-check"></i>
+            <h3>Quản Lý Hiệu Quả</h3>
+            <p>Tối ưu hóa quy trình với các công cụ quản lý thông minh, giúp bạn kiểm soát mọi hoạt động một cách dễ dàng.</p>
+          </div>
+          <div className="feature-card">
+            <i className="fa-solid fa-bolt"></i>
+            <h3>Tăng Tốc Vận Hành</h3>
+            <p>Hệ thống tự động hóa giúp rút ngắn thời gian xử lý, giảm thiểu sai sót và tăng năng suất đáng kể.</p>
+          </div>
+          <div className="feature-card">
+            <i className="fa-solid fa-shield-halved"></i>
+            <h3>An Toàn Tuyệt Đối</h3>
+            <p>Dữ liệu của bạn được bảo mật với các công nghệ tiên tiến nhất, đảm bảo an toàn cho mọi giao dịch.</p>
+          </div>
+        </div>
+      </section>
 
-            <footer className="footer-container">
-                <div className="footer-main">
-                    <div className="footer-logo-col">
-                        <p>High Technology, Great Success</p>
-                    </div>
-                    <div className="footer-link-col">
-                        <h4>Điều khoản sử dụng</h4>
-                        <ul>
-                            <li><a href="#">Chính sách bảo mật</a></li>
-                            <li><a href="#">Lược đồ Website</a></li>
-                        </ul>
-                    </div>
-                    <div className="footer-link-col">
-                        <h4>Tuyển dụng</h4>
-                        <ul>
-                            <li><a href="#">Hỗ trợ</a></li>
-                            <li><a href="#">Liên hệ</a></li>
-                        </ul>
-                    </div>
-                    <div className="footer-newsletter-col">
-                        <h4>Bản tin Công nghệ</h4>
-                        <div className="newsletter-form">
-                            <input type="email" placeholder="Đăng ký email" />
-                            <button type="submit">Gửi</button>
-                        </div>
-                    </div>
-                    <div className="footer-back-to-top">
-                        <a href="#top">
-                            Back To Top
-                        </a>
-                    </div>
-                </div>
-                <div className="footer-bottom">
-                    <p>&copy; Nhóm 7</p>
-                </div>
-            </footer>
-        </React.Fragment>
-    );
+      <section className="cta-section">
+        <h2>Sẵn sàng bắt đầu?</h2>
+        <p>Tham gia cùng hàng ngàn doanh nghiệp tin dùng Quản Lý Container ngay hôm nay.</p>
+        <button className="cta-button">Đăng ký ngay</button>
+      </section>
+    </div>
+  );
 };
 
 export default Home;
