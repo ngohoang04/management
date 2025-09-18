@@ -1,31 +1,43 @@
 // src/components/Login.js
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../Auth/Auth';
-import "./Login.css"; // <-- IMPORT FILE CSS
+import "./Login.css"; // file CSS
 
 const Login = () => {
     const [formData, setFormData] = useState({
+        name: '',
         email: '',
         password: '',
     });
+    const [isRegister, setIsRegister] = useState(false);
+    const [message, setMessage] = useState("");
+
     const { login } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    const { email, password } = formData;
+    const { name, email, password } = formData;
 
-    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+    const onChange = e =>
+        setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    const onSubmit = async e => {
+    const handleSubmit = async e => {
         e.preventDefault();
         try {
-            const res = await axios.post('/api/auth/login', formData);
-            login(res.data.token);
-            navigate('/profile'); // Chuyển hướng đến trang profile sau khi đăng nhập
+            if (isRegister) {
+                // Gọi API đăng ký
+                await axios.post('/api/auth/register', formData);
+                setMessage("Đăng ký thành công!");
+            } else {
+                // Gọi API đăng nhập
+                const res = await axios.post('/api/auth/login', { email, password });
+                login(res.data.token);
+                navigate('/profile');
+            }
         } catch (err) {
-            console.error(err.response.data);
-            // Thêm logic hiển thị lỗi cho người dùng ở đây
+            console.error(err.response?.data || err.message);
+            setMessage("Có lỗi xảy ra!");
         }
     };
 
@@ -39,8 +51,9 @@ const Login = () => {
                     <input
                         type="text"
                         id="name"
+                        name="name"
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={onChange}
                         placeholder="Nhập họ và tên"
                         required
                     />
@@ -51,10 +64,12 @@ const Login = () => {
                 <label htmlFor="email">Email</label>
                 <input
                     type="email"
+                    id="email"
+                    name="email"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={onChange}
                     required
-                    placeholder='Nhập email'
+                    placeholder="Nhập email"
                 />
             </div>
 
@@ -62,10 +77,12 @@ const Login = () => {
                 <label htmlFor="password">Mật khẩu</label>
                 <input
                     type="password"
+                    id="password"
+                    name="password"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={onChange}
                     required
-                    placeholder='Nhập mật khẩu'
+                    placeholder="Nhập mật khẩu"
                 />
             </div>
 
@@ -75,7 +92,10 @@ const Login = () => {
 
             <p className="toggle-text">
                 {isRegister ? "Bạn đã có tài khoản?" : "Chưa có tài khoản?"}
-                <span className="toggle-link" onClick={() => setIsRegister(!isRegister)}>
+                <span
+                    className="toggle-link"
+                    onClick={() => setIsRegister(!isRegister)}
+                >
                     {isRegister ? " Đăng nhập" : " Đăng ký"}
                 </span>
             </p>
@@ -85,4 +105,4 @@ const Login = () => {
     );
 };
 
-export default AuthForm;
+export default Login;
