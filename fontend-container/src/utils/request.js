@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 const APT_DOMAIN = "http://localhost:5000/" ;
-=======
-const API_DOMAIN = "http://localhost:3003/api/"; // backend URL
->>>>>>> feature/my-task
 
 export const post = async (path, body, token) => {
     const response = await fetch(API_DOMAIN + path, {

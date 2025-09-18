@@ -1,11 +1,17 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-export default function AllRoutes() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<div>Home page</div>} />
-      </Routes>
-    </BrowserRouter>
-  );
-}
+
+    import React from 'react';
+    import { useRoutes } from 'react-router-dom';
+    import routes from '../../routes/index.js';
+    const AllRoutes = () => {
+
+        const ele = useRoutes(routes);
+        return (
+            <>
+            
+                {ele}
+            </> 
+        );
+    }
+
+    export default AllRoutes;

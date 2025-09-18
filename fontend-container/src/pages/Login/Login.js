@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useState } from 'react';
 import './Login.css';
 import { Login as performLogin } from '../../service/UserService';
@@ -23,56 +22,6 @@ const Login = () => {
         } else {
             alert('Đăng nhập thất bại. Vui lòng kiểm tra lại email và mật khẩu.');
         } 
-=======
-import React, { useState } from "react";
-import { Login as loginApi, Register as registerApi } from "../../service/UserService";
-import "./Login.css";
-
-const AuthForm = () => {
-    const [isRegister, setIsRegister] = useState(false);
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [message, setMessage] = useState("");
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setMessage("");
-
-        try {
-            let result;
-
-            if (isRegister) {
-                // Đăng ký
-                result = await registerApi(name, email, password);
-                setMessage("");
-                if (result.success) {
-                    setMessage("Đăng ký thành công! Bạn có thể đăng nhập ngay.");
-                    setIsRegister(false);
-                    setName("");
-                    setEmail("");
-                    setPassword("");
-                } else {
-                    setMessage(result.message || "Đăng ký thất bại");
-                }
-            } else {
-                // Đăng nhập
-                result = await loginApi(email, password);
-
-                if (result.success && result.token) {
-                    localStorage.setItem("token", result.token);
-                    setMessage("Đăng nhập thành công!");
-                    setEmail("");
-                    setPassword("");
-                } else {
-                    setMessage(result.message || "Đăng nhập thất bại");
-                }
-            }
-        } catch (error) {
-            console.error("Auth error:", error);
-            setMessage("Có lỗi xảy ra, thử lại sau.");
-        }
->>>>>>> feature/my-task
     };
 
     return (
@@ -97,18 +46,10 @@ const AuthForm = () => {
                 <label htmlFor="email">Email</label>
                 <input
                     type="email"
-<<<<<<< HEAD
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     placeholder='Nhập email'
-=======
-                    id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Nhập email"
-                    required
->>>>>>> feature/my-task
                 />
             </div>
 
@@ -116,18 +57,10 @@ const AuthForm = () => {
                 <label htmlFor="password">Mật khẩu</label>
                 <input
                     type="password"
-<<<<<<< HEAD
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     placeholder='Nhập mật khẩu'
-=======
-                    id="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Nhập mật khẩu"
-                    required
->>>>>>> feature/my-task
                 />
             </div>
 
