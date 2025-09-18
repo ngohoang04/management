@@ -30,7 +30,6 @@ const Login = () => {
     };
 
     return (
-<<<<<<< HEAD
         <form className="login-form" onSubmit={handleSubmit}>
             <h2>{isRegister ? "Đăng ký" : "Đăng nhập"}</h2>
 
@@ -83,48 +82,6 @@ const Login = () => {
 
             {message && <p className="message">{message}</p>}
         </form>
-=======
-        <div className="auth-container">
-            <div className="auth-form-card">
-                <h2 className="auth-title">Đăng nhập</h2>
-                <form onSubmit={onSubmit}>
-                    <div className="form-group">
-                        <label className="form-label" htmlFor="email">Email</label>
-                        <input
-                            type="email"
-                            id="email"
-                            className="form-input"
-                            placeholder="Nhập email của bạn"
-                            name="email"
-                            value={email}
-                            onChange={onChange}
-                            required
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label className="form-label" htmlFor="password">Mật khẩu</label>
-                        <input
-                            type="password"
-                            id="password"
-                            className="form-input"
-                            placeholder="Nhập mật khẩu"
-                            name="password"
-                            value={password}
-                            onChange={onChange}
-                            minLength="6"
-                            required
-                        />
-                    </div>
-                    <button type="submit" className="form-submit-btn">
-                        Đăng nhập
-                    </button>
-                </form>
-                <p className="auth-switch-link">
-                    Chưa có tài khoản? <Link to="/register">Đăng ký ngay</Link>
-                </p>
-            </div>
-        </div>
->>>>>>> d848b5370cbddc7f4a5e62e5d9c5735dda9e5acf
     );
 };
 
