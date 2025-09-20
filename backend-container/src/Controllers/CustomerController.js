@@ -10,9 +10,9 @@ exports.getCustomers = async (req, res) => {
                 { model: db.Booking, attributes: ["id", "code", "status", "bookingDate"] }
             ]
         });
-        res.status(200).json({ success: true, data: customers });
+        res.status(200).json({ success: true, message: "List of customers", data: customers });
     } catch (error) {
-        console.error("Error fetching customers:", error);
+        console.error("Error fetching customers:", error.message);
         res.status(500).json({ success: false, message: "Error fetching customers" });
     }
 };
@@ -30,9 +30,9 @@ exports.getCustomerById = async (req, res) => {
         if (!customer) {
             return res.status(404).json({ success: false, message: "Customer not found" });
         }
-        res.status(200).json({ success: true, data: customer });
+        res.status(200).json({ success: true, message: "Customer details", data: customer });
     } catch (error) {
-        console.error("Error fetching customer:", error);
+        console.error("Error fetching customer:", error.message);
         res.status(500).json({ success: false, message: "Error fetching customer" });
     }
 };
@@ -47,9 +47,9 @@ exports.createCustomer = async (req, res) => {
         }
 
         const customer = await db.Customer.create({ name, phone, email, address });
-        res.status(201).json({ success: true, data: customer });
+        res.status(201).json({ success: true, message: "Customer created", data: customer });
     } catch (error) {
-        console.error("Error creating customer:", error);
+        console.error("Error creating customer:", error.message);
         res.status(500).json({ success: false, message: "Error creating customer" });
     }
 };
@@ -62,16 +62,20 @@ exports.updateCustomer = async (req, res) => {
             return res.status(404).json({ success: false, message: "Customer not found" });
         }
 
-        const { name, phone, email, address } = req.body;
+        // chỉ update field có trong body
+        const updates = {};
+        ["name", "phone", "email", "address"].forEach((field) => {
+            if (req.body[field] !== undefined) updates[field] = req.body[field];
+        });
 
-        if (!name || !phone) {
-            return res.status(400).json({ success: false, message: "Name and phone are required" });
+        if (Object.keys(updates).length === 0) {
+            return res.status(400).json({ success: false, message: "No fields to update" });
         }
 
-        await customer.update({ name, phone, email, address });
-        res.status(200).json({ success: true, data: customer });
+        await customer.update(updates);
+        res.status(200).json({ success: true, message: "Customer updated", data: customer });
     } catch (error) {
-        console.error("Error updating customer:", error);
+        console.error("Error updating customer:", error.message);
         res.status(500).json({ success: false, message: "Error updating customer" });
     }
 };
@@ -85,7 +89,7 @@ exports.deleteCustomer = async (req, res) => {
         }
         res.status(200).json({ success: true, message: "Customer deleted" });
     } catch (error) {
-        console.error("Error deleting customer:", error);
+        console.error("Error deleting customer:", error.message);
         res.status(500).json({ success: false, message: "Error deleting customer" });
     }
 };

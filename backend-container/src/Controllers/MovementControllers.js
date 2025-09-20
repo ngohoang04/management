@@ -1,6 +1,7 @@
 // controllers/MovementControllers.js
 import db from "../models/index.js";
 
+// Lấy danh sách Movement
 export async function getMovements(req, res) {
     try {
         const movements = await db.Movement.findAll({
@@ -17,10 +18,30 @@ export async function getMovements(req, res) {
     }
 }
 
+// Tạo Movement mới
 export async function createMovement(req, res) {
     try {
         const { containerId, fromLocationId, toLocationId, departureTime, arrivalTime, status } = req.body;
-        const movement = await db.Movement.create({ containerId, fromLocationId, toLocationId, departureTime, arrivalTime, status });
+
+        // Kiểm tra container & location có tồn tại
+        const container = await db.Container.findByPk(containerId);
+        if (!container) return res.status(400).json({ success: false, message: "Invalid containerId" });
+
+        const fromLoc = await db.Location.findByPk(fromLocationId);
+        if (!fromLoc) return res.status(400).json({ success: false, message: "Invalid fromLocationId" });
+
+        const toLoc = await db.Location.findByPk(toLocationId);
+        if (!toLoc) return res.status(400).json({ success: false, message: "Invalid toLocationId" });
+
+        const movement = await db.Movement.create({
+            containerId,
+            fromLocationId,
+            toLocationId,
+            departureTime,
+            arrivalTime,
+            status
+        });
+
         res.status(201).json({ success: true, message: "Movement created", data: movement });
     } catch (error) {
         console.error("Error creating movement:", error);
@@ -28,6 +49,7 @@ export async function createMovement(req, res) {
     }
 }
 
+// Lấy Movement theo ID
 export async function getMovementById(req, res) {
     try {
         const { id } = req.params;
@@ -49,14 +71,14 @@ export async function getMovementById(req, res) {
     }
 }
 
+// Cập nhật Movement
 export async function updateMovement(req, res) {
     try {
         const { id } = req.params;
         const movement = await db.Movement.findByPk(id);
         if (!movement) return res.status(404).json({ success: false, message: "Movement not found" });
 
-        const { containerId, fromLocationId, toLocationId, departureTime, arrivalTime, status } = req.body;
-        await movement.update({ containerId, fromLocationId, toLocationId, departureTime, arrivalTime, status });
+        await movement.update(req.body);
 
         res.status(200).json({ success: true, message: "Movement updated", data: movement });
     } catch (error) {
@@ -65,6 +87,7 @@ export async function updateMovement(req, res) {
     }
 }
 
+// Xóa Movement
 export async function deleteMovement(req, res) {
     try {
         const { id } = req.params;

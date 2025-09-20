@@ -1,3 +1,4 @@
+// controllers/BookingController.js
 import db from "../models/index.js";
 
 // Lấy tất cả bookings
@@ -13,7 +14,7 @@ export async function getBookings(req, res) {
         });
         res.status(200).json({ success: true, message: "List of bookings", data: bookings });
     } catch (error) {
-        console.error("Error fetching bookings:", error);
+        console.error("Error fetching bookings:", error.message);
         res.status(500).json({ success: false, message: "Error fetching bookings" });
     }
 }
@@ -23,11 +24,14 @@ export async function createBooking(req, res) {
     try {
         const { customerId, startDate, endDate, originId, destinationId, status, price, containerIds } = req.body;
 
+        if (!customerId || !originId || !destinationId) {
+            return res.status(400).json({ success: false, message: "customerId, originId, and destinationId are required" });
+        }
+
         const booking = await db.Booking.create({
             customerId, startDate, endDate, originId, destinationId, status, price
         });
 
-        // Nếu có containerIds thì gán vào bảng trung gian
         if (containerIds && containerIds.length > 0) {
             await booking.setContainers(containerIds);
         }
@@ -43,8 +47,8 @@ export async function createBooking(req, res) {
 
         res.status(201).json({ success: true, message: "Booking created", data: result });
     } catch (error) {
-        console.error("Error creating booking:", error);
-        res.status(400).json({ success: false, message: error.message });
+        console.error("Error creating booking:", error.message);
+        res.status(400).json({ success: false, message: "Error creating booking" });
     }
 }
 
@@ -60,13 +64,12 @@ export async function getBookingById(req, res) {
                 { model: db.Container, through: { attributes: [] }, attributes: ["id", "code"] }
             ]
         });
-        if (booking) {
-            res.status(200).json({ success: true, message: "Booking details", data: booking });
-        } else {
-            res.status(404).json({ success: false, message: "Booking not found" });
+        if (!booking) {
+            return res.status(404).json({ success: false, message: "Booking not found" });
         }
+        res.status(200).json({ success: true, message: "Booking details", data: booking });
     } catch (error) {
-        console.error("Error fetching booking by ID:", error);
+        console.error("Error fetching booking by ID:", error.message);
         res.status(500).json({ success: false, message: "Error fetching booking by ID" });
     }
 }
@@ -76,14 +79,19 @@ export async function updateBooking(req, res) {
     try {
         const { id } = req.params;
         const booking = await db.Booking.findByPk(id);
-        if (!booking) return res.status(404).json({ success: false, message: "Booking not found" });
+        if (!booking) {
+            return res.status(404).json({ success: false, message: "Booking not found" });
+        }
 
-        const { customerId, startDate, endDate, originId, destinationId, status, price, containerIds } = req.body;
+        const updates = {};
+        ["customerId", "startDate", "endDate", "originId", "destinationId", "status", "price"].forEach((field) => {
+            if (req.body[field] !== undefined) updates[field] = req.body[field];
+        });
 
-        await booking.update({ customerId, startDate, endDate, originId, destinationId, status, price });
+        await booking.update(updates);
 
-        if (containerIds) {
-            await booking.setContainers(containerIds);
+        if (req.body.containerIds) {
+            await booking.setContainers(req.body.containerIds);
         }
 
         const result = await db.Booking.findByPk(id, {
@@ -97,8 +105,8 @@ export async function updateBooking(req, res) {
 
         res.status(200).json({ success: true, message: "Booking updated", data: result });
     } catch (error) {
-        console.error("Error updating booking:", error);
-        res.status(400).json({ success: false, message: error.message });
+        console.error("Error updating booking:", error.message);
+        res.status(400).json({ success: false, message: "Error updating booking" });
     }
 }
 
@@ -107,13 +115,12 @@ export async function deleteBooking(req, res) {
     try {
         const { id } = req.params;
         const deleted = await db.Booking.destroy({ where: { id } });
-        if (deleted) {
-            res.status(200).json({ success: true, message: "Booking deleted" });
-        } else {
-            res.status(404).json({ success: false, message: "Booking not found" });
+        if (!deleted) {
+            return res.status(404).json({ success: false, message: "Booking not found" });
         }
+        res.status(200).json({ success: true, message: "Booking deleted" });
     } catch (error) {
-        console.error("Error deleting booking:", error);
+        console.error("Error deleting booking:", error.message);
         res.status(500).json({ success: false, message: "Error deleting booking" });
     }
 }

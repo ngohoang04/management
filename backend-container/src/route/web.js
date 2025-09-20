@@ -9,57 +9,49 @@ const MovementControllers = require("../Controllers/MovementControllers.js");
 const BookingController = require("../Controllers/BookingControllers.js");
 const { verifyToken } = require("../utils/jwt.js");
 
+// Auth routes
 router.post("/auth/register", UserControllers.register);
 router.post("/auth/login", UserControllers.login);
 
 // User routes
-router.get("/users", UserControllers.getUsers);
-
-router.put("/users/:id", UserControllers.updateUser);
-router.delete("/users/:id", UserControllers.deleteUser);
-router.get("/users/:id", UserControllers.getUserById);
-
-// User login
-router.post("/auth/login", UserControllers.login);
-
-// User registration
-router.post("/auth/register", UserControllers.register);
+router.get("/users", verifyToken, UserControllers.getUsers);
+router.get("/users/:id", verifyToken, UserControllers.getUserById);
+router.put("/users/:id", verifyToken, UserControllers.updateUser);
+router.delete("/users/:id", verifyToken, UserControllers.deleteUser);
 
 // Container routes
-router.get("/containers", ContainerControllers.getContainers);
-router.post("/containers", ContainerControllers.insertContainer);
-router.put("/containers/:id", ContainerControllers.updateContainer);
-router.delete("/containers/:id", ContainerControllers.deleteContainer);
-router.get("/containers/:id", ContainerControllers.getContainerById);
+router.get("/containers", verifyToken, ContainerControllers.getContainers);
+router.post("/containers", verifyToken, ContainerControllers.insertContainer);
+router.put("/containers/:id", verifyToken, ContainerControllers.updateContainer);
+router.delete("/containers/:id", verifyToken, ContainerControllers.deleteContainer);
+router.get("/containers/:id", verifyToken, ContainerControllers.getContainerById);
 
 // Customer routes
-router.get("/customers", CustomerController.getCustomers);
-router.get("/customers/:id", CustomerController.getCustomerById);
-router.post("/customers", CustomerController.createCustomer);
-router.put("/customers/:id", CustomerController.updateCustomer);
-router.delete("/customers/:id", CustomerController.deleteCustomer);
+router.get("/customers", verifyToken, CustomerController.getCustomers);
+router.get("/customers/:id", verifyToken, CustomerController.getCustomerById);
+router.post("/customers", verifyToken, CustomerController.createCustomer);
+router.put("/customers/:id", verifyToken, CustomerController.updateCustomer);
+router.delete("/customers/:id", verifyToken, CustomerController.deleteCustomer);
 
 // Location routes
-
-router.get("/locations", LocationController.getLocations);
-router.get("/locations/:id", LocationController.getLocationById);
-router.post("/locations", LocationController.createLocation);
-router.put("/locations/:id", LocationController.updateLocation);
-router.delete("/locations/:id", LocationController.deleteLocation);
+router.get("/locations", verifyToken, LocationController.getLocations);
+router.get("/locations/:id", verifyToken, LocationController.getLocationById);
+router.post("/locations", verifyToken, LocationController.createLocation);
+router.put("/locations/:id", verifyToken, LocationController.updateLocation);
+router.delete("/locations/:id", verifyToken, LocationController.deleteLocation);
 
 // Movement routes
-router.get("/movements", MovementControllers.getMovements);
-router.post("/movements", MovementControllers.createMovement);
-router.get("/movements/:id", MovementControllers.getMovementById);
-router.put("/movements/:id", MovementControllers.updateMovement);
-router.delete("/movements/:id", MovementControllers.deleteMovement);
+router.get("/movements", verifyToken, MovementControllers.getMovements);
+router.post("/movements", verifyToken, MovementControllers.createMovement);
+router.get("/movements/:id", verifyToken, MovementControllers.getMovementById);
+router.put("/movements/:id", verifyToken, MovementControllers.updateMovement);
+router.delete("/movements/:id", verifyToken, MovementControllers.deleteMovement);
 
 // Booking routes
-router.get("/bookings", BookingController.getBookings);
-router.post("/bookings", BookingController.createBooking);
-router.get("/bookings/:id", BookingController.getBookingById);
-router.put("/bookings/:id", BookingController.updateBooking);
-router.delete("/bookings/:id", BookingController.deleteBooking);
+router.get("/bookings", verifyToken, BookingController.getBookings);
+router.post("/bookings", verifyToken, BookingController.createBooking);
+router.get("/bookings/:id", verifyToken, BookingController.getBookingById);
+router.put("/bookings/:id", verifyToken, BookingController.updateBooking);
+router.delete("/bookings/:id", verifyToken, BookingController.deleteBooking);
 
 module.exports = router;
-

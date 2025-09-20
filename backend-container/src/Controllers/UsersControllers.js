@@ -6,7 +6,7 @@ const { generateToken } = require("../utils/jwt.js");
 const getUsers = async (req, res) => {
     try {
         const users = await db.User.findAll({
-            attributes: { exclude: ["password"] } // ẩn password
+            attributes: { exclude: ["passwordHash"] }, // ẩn passwordHash
         });
         res.status(200).json({
             success: true,
@@ -32,12 +32,15 @@ const register = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = await db.User.create({ name, email, passwordHash: hashedPassword });
 
-        const { passwordHash: _, ...userData } = user.toJSON(); // xoá password
-        res.status(201).json({ success: true, message: "User registered successfully", data: userData });
+        const { passwordHash, ...userData } = user.toJSON();
+        res.status(201).json({
+            success: true,
+            message: "User registered successfully",
+            data: userData,
+        });
     } catch (error) {
-        console.error("Register error:", error.message);
-        console.error(error.stack);
-        res.status(500).json({ success: false, message: error.message });
+        console.error("Register error:", error);
+        res.status(500).json({ success: false, message: "Error registering user" });
     }
 };
 
@@ -53,21 +56,25 @@ const login = async (req, res) => {
         if (!isMatch) return res.status(401).json({ success: false, message: "Invalid credentials" });
 
         const token = generateToken(user);
-        res.status(200).json({ success: true, message: "Login successful", token });
+        res.status(200).json({
+            success: true,
+            message: "Login successful",
+            token,
+        });
     } catch (error) {
-        console.error("Login error:", error.message);
+        console.error("Login error:", error);
         res.status(500).json({ success: false, message: "Error logging in" });
     }
 };
 
-// Thêm user (chỉ dùng cho test)
+// Thêm user (test)
 const insertUser = async (req, res) => {
     try {
         const { name, email, password } = req.body;
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await db.User.create({ name, email, password: hashedPassword });
+        const user = await db.User.create({ name, email, passwordHash: hashedPassword });
 
-        const { password: _, ...userData } = user.toJSON();
+        const { passwordHash, ...userData } = user.toJSON();
         res.status(201).json({
             success: true,
             message: "User inserted",
@@ -90,14 +97,13 @@ const updateUser = async (req, res) => {
 
         let { password, ...rest } = req.body;
         if (password) {
-            password = await bcrypt.hash(password, 10);
-            await user.update({ ...rest, hashedPassword });
+            const hashedPassword = await bcrypt.hash(password, 10);
+            await user.update({ ...rest, passwordHash: hashedPassword });
         } else {
             await user.update(rest);
         }
 
-
-        const { password: _, ...userData } = user.toJSON();
+        const { passwordHash, ...userData } = user.toJSON();
         res.status(200).json({
             success: true,
             message: "User updated",
@@ -130,7 +136,7 @@ const getUserById = async (req, res) => {
     try {
         const { id } = req.params;
         const user = await db.User.findByPk(id, {
-            attributes: { exclude: ["password"] }
+            attributes: { exclude: ["passwordHash"] },
         });
         if (user) {
             res.status(200).json({

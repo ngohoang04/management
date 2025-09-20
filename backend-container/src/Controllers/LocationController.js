@@ -5,9 +5,9 @@ const db = require("../models");
 exports.getLocations = async (req, res) => {
     try {
         const locations = await db.Location.findAll();
-        res.status(200).json({ success: true, data: locations });
+        res.status(200).json({ success: true, message: "List of locations", data: locations });
     } catch (error) {
-        console.error("Error fetching locations:", error);
+        console.error("Error fetching locations:", error.message);
         res.status(500).json({ success: false, message: "Error fetching locations" });
     }
 };
@@ -19,9 +19,9 @@ exports.getLocationById = async (req, res) => {
         if (!location) {
             return res.status(404).json({ success: false, message: "Location not found" });
         }
-        res.status(200).json({ success: true, data: location });
+        res.status(200).json({ success: true, message: "Location details", data: location });
     } catch (error) {
-        console.error("Error fetching location:", error);
+        console.error("Error fetching location:", error.message);
         res.status(500).json({ success: false, message: "Error fetching location" });
     }
 };
@@ -35,9 +35,9 @@ exports.createLocation = async (req, res) => {
         }
 
         const location = await db.Location.create({ name, address, type });
-        res.status(201).json({ success: true, data: location });
+        res.status(201).json({ success: true, message: "Location created", data: location });
     } catch (error) {
-        console.error("Error creating location:", error);
+        console.error("Error creating location:", error.message);
         res.status(500).json({ success: false, message: "Error creating location" });
     }
 };
@@ -50,11 +50,16 @@ exports.updateLocation = async (req, res) => {
             return res.status(404).json({ success: false, message: "Location not found" });
         }
 
-        const { name, address, type } = req.body;
-        await location.update({ name, address, type });
-        res.status(200).json({ success: true, data: location });
+        // chỉ update field có trong body
+        const updates = {};
+        ["name", "address", "type"].forEach((field) => {
+            if (req.body[field] !== undefined) updates[field] = req.body[field];
+        });
+
+        await location.update(updates);
+        res.status(200).json({ success: true, message: "Location updated", data: location });
     } catch (error) {
-        console.error("Error updating location:", error);
+        console.error("Error updating location:", error.message);
         res.status(500).json({ success: false, message: "Error updating location" });
     }
 };
@@ -68,7 +73,7 @@ exports.deleteLocation = async (req, res) => {
         }
         res.status(200).json({ success: true, message: "Location deleted" });
     } catch (error) {
-        console.error("Error deleting location:", error);
+        console.error("Error deleting location:", error.message);
         res.status(500).json({ success: false, message: "Error deleting location" });
     }
 };

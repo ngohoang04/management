@@ -1,4 +1,6 @@
+
 const API_DOMAIN = "http://localhost:3003/api/"; // backend URL
+
 
 export const post = async (path, body, token) => {
     const response = await fetch(API_DOMAIN + path, {
