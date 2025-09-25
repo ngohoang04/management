@@ -16,20 +16,31 @@
     align-items: center;
     max-width: 1400px;
     margin: 0 auto;
+    /* Thêm gap để kiểm soát khoảng cách tổng thể */
+    gap: 20px;
 }
 
 .logo-text {
     font-weight: 900;
     font-size: 24px;
     color: #333;
+    text-decoration: none;
+    position: relative;
+    transition: color 0.3s;
 }
 
+.logo-text:hover {
+    color: #8A2BE2;
+}
+
+/* Navigation Styles */
 .navigation ul {
     margin: 0;
     padding: 0;
     list-style: none;
     display: flex;
-    gap: 25px;
+    /* Tăng khoảng cách giữa các mục menu */
+    gap: 35px;
 }
 
 .navigation a {
@@ -38,178 +49,56 @@
     font-weight: 700;
     font-size: 16px;
     transition: color 0.3s, border-bottom 0.3s;
-    padding-bottom: 5px; /* Add space for the underline */
+    padding-bottom: 5px;
+    position: relative;
 }
 
 .navigation a:hover {
-    color: #8A2BE2; /* Hero section purple color */
+    color: #8A2BE2;
 }
 
+/* Hiệu ứng gạch chân động */
+.navigation a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: #8A2BE2;
+    transition: width 0.3s ease-in-out;
+}
+
+.navigation a:hover::after {
+    width: 100%;
+}
+
+/* Style cho mục đang hoạt động (active) */
 .navigation .active {
     color: #8A2BE2;
-    border-bottom: 2px solid #8A2BE2;
 }
 
+.navigation .active::after {
+    width: 100%;
+}
+
+/* Login Button Styles */
 .Login a {
     background-color: #1E90FF;
     color: white;
-    padding: 10px 20px;
-    border-radius: 20px;
+    padding: 12px 24px;
+    border-radius: 999px;
     text-decoration: none;
     font-weight: bold;
+    font-size: 16px;
     transition: background-color 0.3s;
 }
 
 .Login a:hover {
-    background-color: #1a73e8; /* Slightly darker blue */
+    background-color: #1a73e8;
 }
 
 /* Main Content Styles */
 .main-content {
-    min-height: calc(100vh - 120px); /* Adjust based on header/footer height */
-}
-
-/* Footer Styles (Based on previous conversation) */
-.footer-container {
-    background-color: #212529;
-    color: #adb5bd;
-    padding: 60px 20px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
-}
-
-.footer-main {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 40px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding-bottom: 40px;
-    border-bottom: 1px solid #343a40;
-}
-
-.footer-logo-col p {
-    font-size: 14px;
-}
-
-.footer-link-col h4,
-.footer-newsletter-col h4 {
-    color: #f8f9fa;
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 20px;
-    position: relative;
-}
-
-.footer-link-col h4::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -5px;
-    width: 50px;
-    height: 3px;
-    background-color: #007bff;
-    border-radius: 2px;
-}
-
-.footer-link-col ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.footer-link-col li {
-    margin-bottom: 12px;
-}
-
-.footer-link-col a {
-    color: #adb5bd;
-    text-decoration: none;
-    transition: color 0.3s ease-in-out, transform 0.2s ease;
-}
-
-.footer-link-col a:hover {
-    color: #fff;
-    transform: translateX(5px);
-}
-
-.newsletter-form {
-    display: flex;
-    border-radius: 5px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.newsletter-form input {
-    border: none;
-    padding: 12px 15px;
-    background-color: #343a40;
-    color: #f8f9fa;
-    outline: none;
-    flex-grow: 1;
-}
-
-.newsletter-form input::placeholder {
-    color: #999;
-}
-
-.newsletter-form button {
-    background-color: #007bff;
-    border: none;
-    color: white;
-    padding: 12px 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.3s ease;
-}
-
-.newsletter-form button:hover {
-    background-color: #0056b3;
-}
-
-.footer-back-to-top {
-    text-align: right;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-}
-
-.footer-back-to-top a {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: #adb5bd;
-    text-decoration: none;
-    margin-bottom: 15px;
-    transition: color 0.3s ease-in-out;
-}
-
-.footer-back-to-top a:hover {
-    color: #fff;
-}
-
-.footer-bottom {
-    text-align: center;
-    padding-top: 30px;
-    border-top: 1px solid #343a40;
-    margin-top: 20px;
-    font-size: 14px;
-}
-
-@media (max-width: 768px) {
-    .footer-main {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-
-    .footer-link-col h4::after {
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    .footer-back-to-top {
-        align-items: center;
-    }
+    min-height: calc(100vh - 120px);
 }
