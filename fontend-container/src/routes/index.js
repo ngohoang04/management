@@ -30,15 +30,14 @@ import Images from '../pages/Admin/Feature/Image'; // Assuming Image.js is the m
 import Users from '../pages/Admin/Feature/User';
 import QualityControl from '../pages/Admin/Feature/QualityControl';
 import Report from '../pages/Admin/Feature/Report';
-import Setting from '../pages/Admin/Feature/Setting';
+import Settings from '../pages/Admin/Feature/Setting';
 import Suppliers from '../pages/Admin/Feature/Suppliers';
 import Transport from '../pages/Admin/Feature/Transport';
 import Warehouse from '../pages/Admin/Feature/Warehouse';
-import Inbound from '../pages/Admin/Feature/ContainerInbound';
-import Outbound from '../pages/Admin/Feature/ContainerOutbound';
-// Note: Ensure all paths are correct based on your project structure
-// NOTE: ContainerInbound.js and ContainerOutbound.js are typically nested or used in Detail/Create, so I'll omit them from the main sidebar routes for simplicity.
-
+import ContainerInbound from '../pages/Admin/Feature/ContainerInbound';
+import ContainerOutbound from '../pages/Admin/Feature/ContainerOutbound';
+import { Outlet } from 'react-router-dom';
+import Customers from '../pages/Admin/Feature/Customers';
 
 const routes = [
     // 1. Public Routes (Sử dụng LayoutDefault)
@@ -57,10 +56,10 @@ const routes = [
     // 2. Private Admin Routes (Sử dụng PrivateRoutes và AdminLayout)
     {
         path: 'admin',
-        // Đặt PrivateRoutes bọc ngoài AdminLayout để kiểm tra quyền truy cập
+        
         element: <PrivateRoutes><AdminLayout /></PrivateRoutes>,
         children: [
-            // Route mặc định cho /admin (Dashboard) - UNCOMMENTED AND CORRECTED
+           
             { index: true, element: <Navigate to="dashboard" replace /> }, 
             
             // Core Features
@@ -70,16 +69,15 @@ const routes = [
             { path: 'containers/:id', element: <ContainerDetail /> },
             { path: 'images', element: <Images /> },
             { path: 'users', element: <Users /> },
-
-            // Additional Features based on file structure
+            { path: 'customers', element: <Customers /> },
             { path: 'quality-control', element: <QualityControl /> },
             { path: 'reports', element: <Report /> },
-            { path: 'settings', element: <Setting /> },
+            { path: 'settings', element: <Settings /> },
             { path: 'suppliers', element: <Suppliers /> },
             { path: 'transport', element: <Transport /> },
             { path: 'warehouse', element: <Warehouse /> },
-            { path: 'inbound', element: <Inbound /> },
-            { path: 'onbound', element: <Outbound /> },
+            { path: 'inbound', element: <ContainerInbound /> },
+            { path: 'outbound', element: <ContainerOutbound /> },
             // 404 trong Admin
             { path: '*', element: <Error404 /> }
         ]

@@ -6,10 +6,10 @@ import {
   FiCheckSquare,
   FiPackage,
   FiMapPin,
-  FiArchive,     
+  FiArchive,
   FiUsers,
   FiUserCheck,
-  FiBarChart2,   
+  FiBarChart2, 
   FiSettings,
   FiChevronRight
 } from 'react-icons/fi';
@@ -19,25 +19,25 @@ const Sidebar = ({ currentUser, collapsed, setCollapsed }) => {
 
   const menuItems = [
     {
-      path: '/admin/dashboard', // ĐÃ SỬA
+      path: '/admin/dashboard', 
       icon: FiHome,
       label: 'Dashboard',
       roles: ['admin', 'staff', 'viewer']
     },
     {
-      path: '/admin/inbound', // ĐÃ SỬA
+      path: '/admin/inbound',
       icon: FiTruck,
       label: 'Nhập Container',
       roles: ['admin', 'staff']
     },
     {
-      path: '/admin/quality-control', // ĐÃ SỬA để khớp với route con
+      path: '/admin/quality-control',
       icon: FiCheckSquare,
       label: 'Kiểm tra chất lượng',
       roles: ['admin', 'staff']
     },
     {
-      path: '/admin/outbound', // ĐÃ SỬA
+      path: '/admin/outbound', 
       icon: FiPackage,
       label: 'Xuất kho',
       roles: ['admin', 'staff']
@@ -72,12 +72,12 @@ const Sidebar = ({ currentUser, collapsed, setCollapsed }) => {
       label: 'Báo cáo',
       roles: ['admin', 'staff', 'viewer']
     },
-    {
-      path: '/admin/settings', // ĐÃ SỬA
-      icon: FiSettings,
-      label: 'Cài đặt',
-      roles: ['admin', 'staff', 'viewer']
-    }
+    // {
+    //   path: '/admin/settings', // ĐÃ SỬA
+    //   icon: FiSettings,
+    //   label: 'Cài đặt',
+    //   roles: ['admin', 'staff', 'viewer']
+    // }
   ];
 
   // KIỂM TRA PHÒNG NGỪA cho currentUser.role trước khi dùng filter
