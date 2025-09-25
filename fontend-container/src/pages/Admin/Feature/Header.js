@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   FiMenu, 
   FiSun, 
@@ -17,13 +18,18 @@ const Header = ({
   sidebarCollapsed, 
   setSidebarCollapsed 
 }) => {
+  const navigate = useNavigate();
 
-  // FIX: Add early return check for safety.
+  const handleLogoutAndNavigate = () => {
+    onLogout(); // Chạy logic đăng xuất tùy chỉnh (xóa token, session)
+    navigate('/'); // Điều hướng về trang chủ
+  };
+
   if (!currentUser) {
     return (
       <header className="header header--loading">
         <div className="header-left">
-          {/* <h1 className="header-title">Container WMS</h1> */}
+          <h1 className="header-title">Container WMS</h1>
         </div>
         <div className="header-right">
           <FiUser size={20} style={{ marginRight: '10px' }} />
@@ -33,7 +39,6 @@ const Header = ({
     );
   }
 
-  // Use variables for clarity (already using destructuring)
   const { name, avatar, department } = currentUser;
 
   return (
@@ -64,13 +69,13 @@ const Header = ({
         <div className="user-menu">
           <div className="user-info">
             <img 
-              src={avatar} // Using destructured variable
-              alt={name}   // Using destructured variable
+              src={avatar}
+              alt={name}
               className="user-avatar"
             />
             <div className="user-details">
-              <span className="user-name">{name}</span>           
-              <span className="user-role">{department}</span>  
+              <span className="user-name">{name}</span>
+              <span className="user-role">{department}</span>
             </div>
           </div>
           
@@ -79,7 +84,10 @@ const Header = ({
               <FiSettings />
               Cài đặt
             </button>
-            <button className="user-action-btn logout-btn" onClick={onLogout}>
+            <button 
+              className="user-action-btn logout-btn" 
+              onClick={handleLogoutAndNavigate}
+            >
               <FiLogOut />
               Đăng xuất
             </button>
