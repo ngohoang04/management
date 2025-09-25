@@ -2,7 +2,7 @@
 import React, { useContext } from "react";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { AuthContext } from '../context/AuthContext';
-import "./LayoutPrivate.css";
+import "./LayoutDefaut.css";
 
 function LayoutPrivate() {
   const { logout } = useContext(AuthContext);
