@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Outlet, Navigate } from 'react-router-dom'; // CORRECTED: Imported Outlet instead of Router, Routes, Route
+import { Outlet, Navigate, Link } from 'react-router-dom'; // CORRECTED: Imported Outlet instead of Router, Routes, Route
 import './Admin.css';
 
 // Components
@@ -22,7 +22,7 @@ function Admin() {
     id: 1,
     name: 'Nguyễn Văn Admin',
     email: 'admin@warehouse.com',
-    role: 'admin', // admin, staff, viewer
+    role: 'admin', 
     avatar: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop',
     department: 'Quản lý kho'
   });
@@ -72,6 +72,7 @@ function Admin() {
         onLogout={handleLogout}
         sidebarCollapsed={sidebarCollapsed}
         setSidebarCollapsed={setSidebarCollapsed}
+        setSidebarCollapsed={setSidebar}
       />
       
       <div className="app-body">
@@ -82,7 +83,7 @@ function Admin() {
         />
         
         <main className={`main-content ${sidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
-          {/* CORRECTED: The nested routes will be rendered here by the parent router */}
+        
           <Outlet /> 
         </main>
       </div>
@@ -93,3 +94,5 @@ function Admin() {
 }
 
 export default Admin;
+
+<Link/>

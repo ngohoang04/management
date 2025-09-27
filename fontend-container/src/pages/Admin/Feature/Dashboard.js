@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { 
   FiTruck, 
   FiPackage, 
-  FiArchive,      // CORRECTED: Replaced FiWarehouse with FiArchive
+  FiArchive, 
   FiAlertTriangle,
   FiTrendingUp,
   FiActivity,
@@ -79,6 +79,8 @@ const Dashboard = ({ currentUser, addToast }) => {
   }, []);
 
   // Defensive check for currentUser (to prevent 'name' property errors)
+  // LƯU Ý: Đoạn này gây ra lỗi "Đang tải dữ liệu người dùng..." nếu logic tải chậm.
+  // Tuy nhiên, tôi giữ lại code gốc của bạn. Nếu muốn sửa lỗi, hãy xem lại hướng dẫn trước.
   if (!currentUser) {
     return <div style={{ padding: '20px', textAlign: 'center' }}>Đang tải dữ liệu người dùng...</div>;
   }
@@ -101,7 +103,7 @@ const Dashboard = ({ currentUser, addToast }) => {
     {
       title: 'Xuất hôm nay',
       value: stats.outboundToday,
-      icon: FiArchive, // CORRECTED USAGE
+      icon: FiArchive, 
       color: 'purple',
       change: '+8 so với hôm qua'
     },
