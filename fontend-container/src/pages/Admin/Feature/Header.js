@@ -9,7 +9,7 @@ import {
   FiBell,
   FiSettings
 } from 'react-icons/fi';
-
+import '../Style/header.css';
 const Header = ({ 
   currentUser, 
   theme, 
@@ -29,7 +29,7 @@ const Header = ({
     return (
       <header className="header header--loading">
         <div className="header-left">
-          <h1 className="header-title">Container WMS</h1>
+          <h1 className="header-title">Quản li container</h1>
         </div>
         <div className="header-right">
           <FiUser size={20} style={{ marginRight: '10px' }} />
@@ -51,8 +51,8 @@ const Header = ({
           <FiMenu />
         </button>
         <div className="header-brand">
-          <h1 className="header-title">Container WMS</h1>
-          <span className="header-subtitle">Hệ thống quản lý kho container</span>
+          <h1 className="header-title">Quản lí container</h1>
+  
         </div>
       </div>
 
@@ -80,10 +80,7 @@ const Header = ({
           </div>
           
           <div className="user-actions">
-            <button className="user-action-btn">
-              <FiSettings />
-              Cài đặt
-            </button>
+           
             <button 
               className="user-action-btn logout-btn" 
               onClick={handleLogoutAndNavigate}

@@ -9,7 +9,7 @@ function Login() {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    Tự động redirect nếu đã đăng nhập
+    // Tự động redirect nếu đã đăng nhập
     useEffect(() => {
         const token = localStorage.getItem('accessToken');
         if (token) {

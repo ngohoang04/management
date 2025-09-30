@@ -1,21 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Outlet, Navigate, Link } from 'react-router-dom'; // CORRECTED: Imported Outlet instead of Router, Routes, Route
+import { Outlet, Navigate, Link } from 'react-router-dom';
 import './Admin.css';
 
 // Components
 import Header from './Feature/Header';
 import Sidebar from './Feature/Sidebar';
 import Toast from './Feature/Toast';
-import Dashboard from './Feature/Dashboard';
-import ContainerInbound from './Feature/ContainerInbound';
-import ContainerOutbound from './Feature/ContainerOutbound';
-import QualityControl from './Feature/QualityControl';
-import Transport from './Feature/Transport';
-import Warehouse from './Feature/Warehouse';
-import Customers from './Feature/Customers';
-import Suppliers from './Feature/Suppliers';
-import Reports from './Feature/Report';
-import Settings from './Feature/Setting';
 
 function Admin() {
   const [currentUser, setCurrentUser] = useState({
@@ -66,13 +56,12 @@ function Admin() {
   return (
     <div className="app">
       <Header 
-        currentUser={currentUser}n
+        currentUser={currentUser}
         theme={theme}
         toggleTheme={toggleTheme}
         onLogout={handleLogout}
         sidebarCollapsed={sidebarCollapsed}
         setSidebarCollapsed={setSidebarCollapsed}
-       
       />
       
       <div className="app-body">
@@ -83,8 +72,8 @@ function Admin() {
         />
         
         <main className={`main-content ${sidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
-        
-          <Outlet /> 
+          {/* Truyền currentUser và addToast qua Outlet context */}
+          <Outlet context={{ currentUser, addToast }} /> 
         </main>
       </div>
 
@@ -94,4 +83,3 @@ function Admin() {
 }
 
 export default Admin;
-

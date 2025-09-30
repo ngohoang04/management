@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
 import { 
   FiTruck, 
   FiPackage, 
@@ -11,7 +11,10 @@ import {
   FiCheckCircle
 } from 'react-icons/fi';
 
-const Dashboard = ({ currentUser, addToast }) => {
+const Dashboard = () => {
+  // Nhận currentUser và addToast từ Outlet context
+  const { currentUser, addToast } = useOutletContext();
+
   const [stats, setStats] = useState({
     totalContainers: 0,
     inboundToday: 0,
@@ -78,13 +81,6 @@ const Dashboard = ({ currentUser, addToast }) => {
     ]);
   }, []);
 
-  // Defensive check for currentUser (to prevent 'name' property errors)
-  // LƯU Ý: Đoạn này gây ra lỗi "Đang tải dữ liệu người dùng..." nếu logic tải chậm.
-  // Tuy nhiên, tôi giữ lại code gốc của bạn. Nếu muốn sửa lỗi, hãy xem lại hướng dẫn trước.
-  if (!currentUser) {
-    return <div style={{ padding: '20px', textAlign: 'center' }}>Đang tải dữ liệu người dùng...</div>;
-  }
-
   const statCards = [
     {
       title: 'Tổng Container',
@@ -139,7 +135,7 @@ const Dashboard = ({ currentUser, addToast }) => {
     <div className="dashboard">
       <div className="dashboard-header">
         <h2>Dashboard Tổng quan</h2>
-        <p>Chào mừng trở lại, {currentUser.name}</p>
+        <p>Chào mừng trở lại, {currentUser?.name || 'Admin'}</p>
       </div>
 
       <div className="stats-grid">
@@ -164,7 +160,6 @@ const Dashboard = ({ currentUser, addToast }) => {
         <div className="dashboard-section">
           <div className="section-header">
             <h3>Tình trạng kho</h3>
-            {/* CORRECTED LINKING */}
             <Link to="/admin/warehouse" className="section-action">
               Xem chi tiết
             </Link>
@@ -204,7 +199,6 @@ const Dashboard = ({ currentUser, addToast }) => {
         <div className="dashboard-section">
           <div className="section-header">
             <h3>Hoạt động gần đây</h3>
-            {/* CORRECTED LINKING */}
             <Link to="/admin/reports" className="section-action">
               Xem tất cả
             </Link>
@@ -245,22 +239,18 @@ const Dashboard = ({ currentUser, addToast }) => {
       <div className="quick-actions">
         <h3>Thao tác nhanh</h3>
         <div className="action-grid">
-          {/* CORRECTED LINKING */}
           <Link to="/admin/inbound" className="action-card">
             <FiTruck className="action-icon" />
             <span>Nhập Container</span>
           </Link>
-          {/* CORRECTED LINKING */}
           <Link to="/admin/quality-control" className="action-card">
             <FiCheckCircle className="action-icon" />
             <span>Kiểm tra chất lượng</span>
           </Link>
-          {/* CORRECTED LINKING */}
           <Link to="/admin/outbound" className="action-card">
             <FiPackage className="action-icon" />
             <span>Xuất kho</span>
           </Link>
-          {/* CORRECTED LINKING */}
           <Link to="/admin/reports" className="action-card">
             <FiTrendingUp className="action-icon" />
             <span>Xem báo cáo</span>
