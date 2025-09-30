@@ -233,45 +233,45 @@
             ]
         },
         {
-            "name": "Locations",
+            "name": "Cargos",
             "item": [
                 {
-                    "name": "Get all locations",
+                    "name": "Get all cargos",
                     "request": {
                         "method": "GET",
                         "url": {
-                            "raw": "http://localhost:3000/locations",
+                            "raw": "http://localhost:3000/cargos",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
                             "port": "3000",
                             "path": [
-                                "locations"
+                                "cargos"
                             ]
                         }
                     }
                 },
                 {
-                    "name": "Get location by ID",
+                    "name": "Get cargo by ID",
                     "request": {
                         "method": "GET",
                         "url": {
-                            "raw": "http://localhost:3000/locations/1",
+                            "raw": "http://localhost:3000/cargos/1",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
                             "port": "3000",
                             "path": [
-                                "locations",
+                                "cargos",
                                 "1"
                             ]
                         }
                     }
                 },
                 {
-                    "name": "Create location",
+                    "name": "Create cargo",
                     "request": {
                         "method": "POST",
                         "header": [
@@ -282,23 +282,23 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n  \"name\": \"Hai Phong Port\",\n  \"type\": \"Port\",\n  \"address\": \"Hai Phong, Vietnam\"\n}"
+                            "raw": "{\n  \"name\": \"Electronics\",\n  \"description\": \"Smartphones and tablets\",\n  \"weight\": 1200,\n  \"volume\": 15,\n  \"owner_id\": 1\n}"
                         },
                         "url": {
-                            "raw": "http://localhost:3000/locations",
+                            "raw": "http://localhost:3000/cargos",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
                             "port": "3000",
                             "path": [
-                                "locations"
+                                "cargos"
                             ]
                         }
                     }
                 },
                 {
-                    "name": "Update location",
+                    "name": "Update cargo",
                     "request": {
                         "method": "PUT",
                         "header": [
@@ -309,35 +309,35 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n  \"name\": \"Cat Lai Port\",\n  \"type\": \"Port\",\n  \"address\": \"Ho Chi Minh City, Vietnam\"\n}"
+                            "raw": "{\n  \"name\": \"Updated Electronics\",\n  \"description\": \"Updated description\",\n  \"weight\": 1300,\n  \"volume\": 18\n}"
                         },
                         "url": {
-                            "raw": "http://localhost:3000/locations/1",
+                            "raw": "http://localhost:3000/cargos/1",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
                             "port": "3000",
                             "path": [
-                                "locations",
+                                "cargos",
                                 "1"
                             ]
                         }
                     }
                 },
                 {
-                    "name": "Delete location",
+                    "name": "Delete cargo",
                     "request": {
                         "method": "DELETE",
                         "url": {
-                            "raw": "http://localhost:3000/locations/1",
+                            "raw": "http://localhost:3000/cargos/1",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
                             "port": "3000",
                             "path": [
-                                "locations",
+                                "cargos",
                                 "1"
                             ]
                         }
@@ -346,12 +346,24 @@
             ]
         },
         {
-            "name": "Users",
+            "info": {
+                "name": "ContainerHistories API",
+                "_postman_id": "abcdef12-3456-7890-abcd-ef1234567890",
+                "description": "API test collection for ContainerHistories with JWT Authorization",
+                "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+            },
             "item": [
                 {
                     "name": "Get all users",
                     "request": {
                         "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer <YOUR_JWT_TOKEN>",
+                                "type": "text"
+                            }
+                        ],
                         "url": {
                             "raw": "http://localhost:3000/users",
                             "protocol": "http",
@@ -372,6 +384,13 @@
                         "url": {
                             "raw": "http://localhost:3000/users/1",
                             "protocol": "http",
+                            "header": [
+                                {
+                                    "key": "Authorization",
+                                    "value": "Bearer <YOUR_JWT_TOKEN>",
+                                    "type": "text"
+                                }
+                            ],
                             "host": [
                                 "localhost"
                             ],
@@ -390,7 +409,13 @@
                         "header": [
                             {
                                 "key": "Content-Type",
-                                "value": "application/json"
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer <YOUR_JWT_TOKEN>",
+                                "type": "text"
                             }
                         ],
                         "body": {
@@ -418,6 +443,11 @@
                             {
                                 "key": "Content-Type",
                                 "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer <YOUR_JWT_TOKEN>",
+                                "type": "text"
                             }
                         ],
                         "body": {
@@ -445,6 +475,13 @@
                         "url": {
                             "raw": "http://localhost:3000/users/1",
                             "protocol": "http",
+                            "header": [
+                                {
+                                    "key": "Authorization",
+                                    "value": "Bearer <YOUR_JWT_TOKEN>",
+                                    "type": "text"
+                                }
+                            ],
                             "host": [
                                 "localhost"
                             ],
@@ -459,45 +496,45 @@
             ]
         },
         {
-            "name": "Bookings",
+            "name": "Reports",
             "item": [
                 {
-                    "name": "Get all bookings",
+                    "name": "Get all reports",
                     "request": {
                         "method": "GET",
                         "url": {
-                            "raw": "http://localhost:3000/bookings",
+                            "raw": "http://localhost:3000/reports",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
                             "port": "3000",
                             "path": [
-                                "bookings"
+                                "reports"
                             ]
                         }
                     }
                 },
                 {
-                    "name": "Get booking by ID",
+                    "name": "Get report by ID",
                     "request": {
                         "method": "GET",
                         "url": {
-                            "raw": "http://localhost:3000/bookings/1",
+                            "raw": "http://localhost:3000/reports/1",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
                             "port": "3000",
                             "path": [
-                                "bookings",
+                                "reports",
                                 "1"
                             ]
                         }
                     }
                 },
                 {
-                    "name": "Create booking",
+                    "name": "Create report",
                     "request": {
                         "method": "POST",
                         "header": [
@@ -508,23 +545,23 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n  \"customerId\": 1,\n  \"userId\": 1,\n  \"status\": \"Pending\",\n  \"bookingDate\": \"2025-09-12\",\n  \"containers\": [1, 2]\n}"
+                            "raw": "{\n  \"title\": \"Monthly Container Report\",\n  \"content\": \"Summary of container activities\",\n  \"created_by\": 1\n}"
                         },
                         "url": {
-                            "raw": "http://localhost:3000/bookings",
+                            "raw": "http://localhost:3000/reports",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
                             "port": "3000",
                             "path": [
-                                "bookings"
+                                "reports"
                             ]
                         }
                     }
                 },
                 {
-                    "name": "Update booking",
+                    "name": "Update report",
                     "request": {
                         "method": "PUT",
                         "header": [
@@ -535,35 +572,35 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n  \"status\": \"Confirmed\"\n}"
+                            "raw": "{\n  \"title\": \"Updated Monthly Report\",\n  \"content\": \"Updated content\"\n}"
                         },
                         "url": {
-                            "raw": "http://localhost:3000/bookings/1",
+                            "raw": "http://localhost:3000/reports/1",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
                             "port": "3000",
                             "path": [
-                                "bookings",
+                                "reports",
                                 "1"
                             ]
                         }
                     }
                 },
                 {
-                    "name": "Delete booking",
+                    "name": "Delete report",
                     "request": {
                         "method": "DELETE",
                         "url": {
-                            "raw": "http://localhost:3000/bookings/1",
+                            "raw": "http://localhost:3000/reports/1",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
                             "port": "3000",
                             "path": [
-                                "bookings",
+                                "reports",
                                 "1"
                             ]
                         }
@@ -626,6 +663,345 @@
                             "path": [
                                 "auth",
                                 "login"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Suppliers",
+            "item": [
+                {
+                    "name": "Get all suppliers",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:3000/suppliers",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "suppliers"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get supplier by ID",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:3000/suppliers/1",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "suppliers",
+                                "1"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Create supplier",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"Supplier A\",\n  \"contact_person\": \"Nguyen Van B\",\n  \"phone\": \"0912345678\",\n  \"email\": \"supplierA@example.com\",\n  \"address\": \"Hanoi\",\n  \"user_id\": 1\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/suppliers",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "suppliers"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update supplier",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"Supplier A Updated\",\n  \"contact_person\": \"Tran Van C\",\n  \"phone\": \"0987654321\",\n  \"email\": \"supplierAnew@example.com\",\n  \"address\": \"Ho Chi Minh City\",\n  \"user_id\": 1\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/suppliers/1",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "suppliers",
+                                "1"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete supplier",
+                    "request": {
+                        "method": "DELETE",
+                        "url": {
+                            "raw": "http://localhost:3000/suppliers/1",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "suppliers",
+                                "1"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Warehouses",
+            "item": [
+                {
+                    "name": "Get all warehouses",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:3000/warehouses",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "warehouses"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get warehouse by ID",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:3000/warehouses/1",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "warehouses",
+                                "1"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Create warehouse",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"Warehouse A\",\n  \"location\": \"Hanoi\",\n  \"capacity\": 500,\n  \"current_occupancy\": 100\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/warehouses",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "warehouses"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update warehouse",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"Warehouse A Updated\",\n  \"location\": \"Ho Chi Minh City\",\n  \"capacity\": 600,\n  \"current_occupancy\": 150\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/warehouses/1",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "warehouses",
+                                "1"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete warehouse",
+                    "request": {
+                        "method": "DELETE",
+                        "url": {
+                            "raw": "http://localhost:3000/warehouses/1",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "warehouses",
+                                "1"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "ContainerHistories",
+            "item": [
+                {
+                    "name": "Get all container histories",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:3000/containerhistories",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "containerhistories"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get container history by ID",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:3000/containerhistories/1",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "containerhistories",
+                                "1"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Create container history",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"container_id\": 1,\n  \"status\": \"In Use\",\n  \"updated_by\": 1\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/containerhistories",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "containerhistories"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update container history",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"status\": \"Completed\"\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/containerhistories/1",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "containerhistories",
+                                "1"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete container history",
+                    "request": {
+                        "method": "DELETE",
+                        "url": {
+                            "raw": "http://localhost:3000/containerhistories/1",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "containerhistories",
+                                "1"
                             ]
                         }
                     }

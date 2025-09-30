@@ -7,30 +7,17 @@ function Register() {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleRegister = async (event) => {
     event.preventDefault();
     setError("");
+    setLoading(true);
 
     try {
-      // --- Bước 1: Gọi API giả để tạo user ---
-      const response = await fetch("http://localhost:3000/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password, email }),
-      });
-
-      const newUser = await response.json();
-
-      if (!response.ok) {
-        throw new Error(newUser.message || "Đăng ký thất bại, vui lòng thử lại.");
-      }
-
-      // --- Bước 2: Lấy danh sách user cục bộ ---
+      // --- Kiểm tra localStorage trước ---
       const localUsers = JSON.parse(localStorage.getItem("localUsers")) || [];
-
-      // --- Bước 3: Kiểm tra trùng username/email ---
       const exists = localUsers.some(
         (u) => u.username === username || u.email === email
       );
@@ -38,20 +25,36 @@ function Register() {
         throw new Error("Tên đăng nhập hoặc email đã tồn tại!");
       }
 
-      // --- Bước 4: Tạo user mới ---
-      newUser.id = Date.now(); // Fake id để tránh trùng
-      newUser.password = password; // DummyJSON không trả về password
+      // --- Gọi API để đăng ký ---
+      const response = await fetch("http://localhost:3000/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password, email }),
+      });
 
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Đăng ký thất bại, vui lòng thử lại.");
+      }
+
+      // --- Lưu user vào localStorage nếu muốn test ---
+      const newUser = {
+        id: data.user?.id || Date.now(), // lấy id từ API nếu có, nếu không tạo fake id
+        username,
+        email,
+        password, // chỉ lưu local, không nên lưu password thật
+      };
       localUsers.push(newUser);
-
-      // --- Bước 5: Lưu lại localStorage ---
       localStorage.setItem("localUsers", JSON.stringify(localUsers));
 
       alert("Đăng ký thành công! Giờ bạn có thể đăng nhập.");
       navigate("/login");
     } catch (err) {
-      setError(err.message);
       console.error("Lỗi đăng ký:", err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -91,7 +94,9 @@ function Register() {
             />
           </div>
           {error && <p className="error-message">{error}</p>}
-          <button type="submit" className="btn">Đăng Ký</button>
+          <button type="submit" className="btn" disabled={loading}>
+            {loading ? "Đang xử lý..." : "Đăng Ký"}
+          </button>
         </form>
         <div className="switch-link">
           <p>
