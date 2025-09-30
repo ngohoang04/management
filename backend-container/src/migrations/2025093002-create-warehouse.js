@@ -2,31 +2,24 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Movements', {
+    await queryInterface.createTable('Warehouses', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      containerId: {
+      name: {
+        type: Sequelize.STRING
+      },
+      location: {
+        type: Sequelize.STRING
+      },
+      capacity: {
         type: Sequelize.INTEGER
       },
-      fromLocationId: {
+      current_occupancy: {
         type: Sequelize.INTEGER
-      },
-      toLocationId: {
-        type: Sequelize.INTEGER
-      },
-      departureTime: {
-        type: Sequelize.DATE
-      },
-      arrivalTime: {
-        type: Sequelize.DATE
-      },
-      status: {
-        type: Sequelize.ENUM('Planned', 'In Transit', 'Arrived', 'Delayed'),
-        defaultValue: 'Planned'
       },
       createdAt: {
         allowNull: false,
@@ -39,6 +32,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Movements');
+    await queryInterface.dropTable('Warehouses');
   }
 };

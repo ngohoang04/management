@@ -9,7 +9,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      code: {
+      container_code: {
         type: Sequelize.STRING
       },
       type: {
@@ -18,18 +18,35 @@ module.exports = {
       size: {
         type: Sequelize.STRING
       },
-      weight: {
-        type: Sequelize.DECIMAL
-      },
       status: {
-        type: Sequelize.ENUM('Available', 'In Use', 'Damaged', 'Maintenance'),
-        defaultValue: 'Available'
+        type: Sequelize.STRING
       },
-      locationId: {
-        type: Sequelize.INTEGER
+      warehouse_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "Warehouses",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
-      ownerId: {
-        type: Sequelize.INTEGER
+      supplier_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "Suppliers",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
+      },
+      customer_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "Customers",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
       createdAt: {
         allowNull: false,

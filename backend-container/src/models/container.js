@@ -11,30 +11,44 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.Customer, { foreignKey: 'ownerId' });
-      // Container đang ở 1 location
-      this.belongsTo(models.Location, { foreignKey: 'locationId' });
-      // Container có nhiều movement (lịch trình)
-      this.hasMany(models.Movement, { foreignKey: 'containerId' });
-      // Container có thể thuộc nhiều booking thông qua bảng trung gian
-      this.belongsToMany(models.Booking, {
-        through: models.BookingContainer,
-        foreignKey: 'containerId',
-        otherKey: 'bookingId'
+      Container.belongsTo(models.Warehouse, {
+        foreignKey: "warehouse_id",
+        as: "warehouse",
       });
+      Container.belongsTo(models.Supplier, {
+        foreignKey: "supplier_id",
+        as: "supplier",
+      });
+      Container.hasMany(models.Cargo, {
+        foreignKey: "container_id",
+        as: "cargos",
+      });
+      Container.hasMany(models.ContainerHistory, {
+        foreignKey: "container_id",
+        as: "histories",
+      });
+      Container.belongsTo(models.Customer, {
+        foreignKey: "customer_id",
+        as: "customer",
+      });// Thêm quan hệ với Customer
+
     }
   }
   Container.init({
-    code: DataTypes.STRING,
+    container_code: DataTypes.STRING,
     type: DataTypes.STRING,
     size: DataTypes.STRING,
-    weight: DataTypes.DECIMAL,
     status: DataTypes.STRING,
-    locationId: DataTypes.INTEGER,
-    ownerId: DataTypes.INTEGER
+    warehouse_id: DataTypes.INTEGER,
+    supplier_id: DataTypes.INTEGER,
+    customer_id: DataTypes.INTEGER,
   }, {
     sequelize,
-    modelName: 'Container',
+    modelName: "Container",
+    tableName: "Containers",
+    timestamps: true,
+    createdAt: "created_at",
+    updatedAt: "updated_at",
   });
   return Container;
 };

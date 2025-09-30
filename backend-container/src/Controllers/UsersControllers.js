@@ -3,161 +3,107 @@ const db = require("../models/index.js");
 const { generateToken } = require("../utils/jwt.js");
 
 // Lấy danh sách user
-const getUsers = async (req, res) => {
+const getAllUsers = async (req, res) => {
     try {
         const users = await db.User.findAll({
-            attributes: { exclude: ["passwordHash"] }, // ẩn passwordHash
+            attributes: { exclude: ["password_hash"] } // Ẩn password
         });
-        res.status(200).json({
-            success: true,
-            message: "List of users",
-            data: users,
-        });
+        res.status(200).json(users);
     } catch (error) {
-        console.error("Error fetching users:", error);
-        res.status(500).json({ success: false, message: "Error fetching users" });
+        res.status(500).json({ error: error.message });
     }
 };
 
-// Đăng ký
-const register = async (req, res) => {
+
+
+// Thêm user (manual)
+const createUser = async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { username, password, full_name, email, phone, role } = req.body;
+        const password_hash = await bcrypt.hash(password, 10);
 
-        const existingUser = await db.User.findOne({ where: { email } });
-        if (existingUser) {
-            return res.status(400).json({ success: false, message: "Email already exists" });
-        }
+        const user = await db.User.create({
+            username,
+            password_hash,
+            full_name,
+            email,
+            phone,
+            role
+        });
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await db.User.create({ name, email, passwordHash: hashedPassword });
-
-        const { passwordHash, ...userData } = user.toJSON();
         res.status(201).json({
-            success: true,
-            message: "User registered successfully",
-            data: userData,
+            message: "User created successfully",
+            user: {
+                id: user.id,
+                username: user.username,
+                full_name: user.full_name,
+                email: user.email,
+                phone: user.phone,
+                role: user.role
+            }
         });
     } catch (error) {
-        console.error("Register error:", error);
-        res.status(500).json({ success: false, message: "Error registering user" });
-    }
-};
-
-// Đăng nhập
-const login = async (req, res) => {
-    try {
-        const { email, password } = req.body;
-
-        const user = await db.User.findOne({ where: { email } });
-        if (!user) return res.status(404).json({ success: false, message: "User not found" });
-
-        const isMatch = await bcrypt.compare(password, user.passwordHash);
-        if (!isMatch) return res.status(401).json({ success: false, message: "Invalid credentials" });
-
-        const token = generateToken(user);
-        res.status(200).json({
-            success: true,
-            message: "Login successful",
-            token,
-        });
-    } catch (error) {
-        console.error("Login error:", error);
-        res.status(500).json({ success: false, message: "Error logging in" });
-    }
-};
-
-// Thêm user (test)
-const insertUser = async (req, res) => {
-    try {
-        const { name, email, password } = req.body;
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await db.User.create({ name, email, passwordHash: hashedPassword });
-
-        const { passwordHash, ...userData } = user.toJSON();
-        res.status(201).json({
-            success: true,
-            message: "User inserted",
-            data: userData,
-        });
-    } catch (error) {
-        console.error("Error inserting user:", error);
-        res.status(500).json({ success: false, message: "Error inserting user" });
+        res.status(500).json({ error: error.message });
     }
 };
 
 // Cập nhật user
 const updateUser = async (req, res) => {
     try {
-        const { id } = req.params;
-        const user = await db.User.findByPk(id);
-        if (!user) {
-            return res.status(404).json({ success: false, message: "User not found" });
-        }
+        const { username, password, full_name, email, phone, role } = req.body;
 
-        let { password, ...rest } = req.body;
+        const user = await db.User.findByPk(req.params.id);
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        let password_hash = user.password_hash;
         if (password) {
-            const hashedPassword = await bcrypt.hash(password, 10);
-            await user.update({ ...rest, passwordHash: hashedPassword });
-        } else {
-            await user.update(rest);
+            password_hash = await bcrypt.hash(password, 10);
         }
 
-        const { passwordHash, ...userData } = user.toJSON();
-        res.status(200).json({
-            success: true,
-            message: "User updated",
-            data: userData,
+        await user.update({
+            username,
+            password_hash,
+            full_name,
+            email,
+            phone,
+            role
         });
+
+        res.status(200).json({ message: "User updated successfully", user });
     } catch (error) {
-        console.error("Error updating user:", error);
-        res.status(500).json({ success: false, message: "Error updating user" });
+        res.status(500).json({ error: error.message });
     }
 };
 
 // Xóa user
 const deleteUser = async (req, res) => {
     try {
-        const { id } = req.params;
-        const deleted = await db.User.destroy({ where: { id } });
-        if (deleted) {
-            res.status(200).json({ success: true, message: "User deleted" });
-        } else {
-            res.status(404).json({ success: false, message: "User not found" });
-        }
+        const user = await db.User.findByPk(req.params.id);
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        await user.destroy();
+        res.status(200).json({ message: "User deleted successfully" });
     } catch (error) {
-        console.error("Error deleting user:", error);
-        res.status(500).json({ success: false, message: "Error deleting user" });
+        res.status(500).json({ error: error.message });
     }
 };
 
 // Lấy user theo ID
 const getUserById = async (req, res) => {
     try {
-        const { id } = req.params;
-        const user = await db.User.findByPk(id, {
-            attributes: { exclude: ["passwordHash"] },
+        const user = await db.User.findByPk(req.params.id, {
+            attributes: { exclude: ["password_hash"] }
         });
-        if (user) {
-            res.status(200).json({
-                success: true,
-                message: "User details",
-                data: user,
-            });
-        } else {
-            res.status(404).json({ success: false, message: "User not found" });
-        }
+        if (!user) return res.status(404).json({ message: "User not found" });
+        res.status(200).json(user);
     } catch (error) {
-        console.error("Error fetching user by ID:", error);
-        res.status(500).json({ success: false, message: "Error fetching user by ID" });
+        res.status(500).json({ error: error.message });
     }
 };
 
 module.exports = {
-    getUsers,
-    register,
-    login,
-    insertUser,
+    getAllUsers,
+    createUser,
     updateUser,
     deleteUser,
     getUserById,

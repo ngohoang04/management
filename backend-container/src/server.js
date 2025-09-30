@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
-// const cors = require("cors"); // cho frontend call API
+const cors = require("cors"); // cho frontend call API
 // const morgan = require("morgan"); // log request ra console
 const webRoutes = require("./route/web.js");
 const configViewEngine = require("./config/viewEngine");
@@ -13,8 +13,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-// app.use(cors()); // cho phép frontend khác domain call API
-// app.use(morgan("dev")); // log method + url + status
+app.use(cors()); // cho phép frontend khác domain call API
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

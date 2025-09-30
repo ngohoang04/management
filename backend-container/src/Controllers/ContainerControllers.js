@@ -6,8 +6,9 @@ export async function getContainers(req, res) {
     try {
         const containers = await db.Container.findAll({
             include: [
-                { model: db.Location, attributes: ["id", "name", "type"] },
-                { model: db.Customer, attributes: ["id", "name", "phone"] }
+                { model: db.Warehouse, as: "warehouse", attributes: ["id", "name", "location"] },
+                { model: db.Supplier, as: "supplier", attributes: ["id", "name", "contact"] },
+                { model: db.Customer, as: "customer", attributes: ["id", "name", "phone"] }
             ]
         });
         res.status(200).json({ success: true, message: "List of containers", data: containers });
@@ -23,13 +24,16 @@ export async function getContainerById(req, res) {
         const { id } = req.params;
         const container = await db.Container.findByPk(id, {
             include: [
-                { model: db.Location, attributes: ["id", "name", "type"] },
-                { model: db.Customer, attributes: ["id", "name", "phone"] }
+                { model: db.Warehouse, as: "warehouse", attributes: ["id", "name", "location"] },
+                { model: db.Supplier, as: "supplier", attributes: ["id", "name", "contact"] },
+                { model: db.Customer, as: "customer", attributes: ["id", "name", "phone"] }
             ]
         });
+
         if (!container) {
             return res.status(404).json({ success: false, message: "Container not found" });
         }
+
         res.status(200).json({ success: true, message: "Container details", data: container });
     } catch (error) {
         console.error("Error fetching container by ID:", error.message);
@@ -40,13 +44,16 @@ export async function getContainerById(req, res) {
 // Thêm container mới
 export async function insertContainer(req, res) {
     try {
-        const { code, type, size, weight, status, locationId, ownerId } = req.body;
+        const { container_code, type, size, status, warehouse_id, supplier_id, customer_id } = req.body;
 
-        if (!code || !type) {
-            return res.status(400).json({ success: false, message: "Code and type are required" });
+        if (!container_code || !type) {
+            return res.status(400).json({ success: false, message: "Container code and type are required" });
         }
 
-        const container = await db.Container.create({ code, type, size, weight, status, locationId, ownerId });
+        const container = await db.Container.create({
+            container_code, type, size, status, warehouse_id, supplier_id, customer_id
+        });
+
         res.status(201).json({ success: true, message: "Container created", data: container });
     } catch (error) {
         console.error("Error inserting container:", error.message);
@@ -63,9 +70,8 @@ export async function updateContainer(req, res) {
             return res.status(404).json({ success: false, message: "Container not found" });
         }
 
-        // chỉ update field có trong body
         const updates = {};
-        ["code", "type", "size", "weight", "status", "locationId", "ownerId"].forEach((field) => {
+        ["container_code", "type", "size", "status", "warehouse_id", "supplier_id", "customer_id"].forEach(field => {
             if (req.body[field] !== undefined) updates[field] = req.body[field];
         });
 

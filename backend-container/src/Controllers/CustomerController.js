@@ -6,8 +6,16 @@ exports.getCustomers = async (req, res) => {
     try {
         const customers = await db.Customer.findAll({
             include: [
-                { model: db.Container, attributes: ["id", "code", "status"] },
-                { model: db.Booking, attributes: ["id", "code", "status", "bookingDate"] }
+                {
+                    model: db.Container,
+                    as: "containers",
+                    attributes: ["id", "code", "status"]
+                },
+                {
+                    model: db.User,
+                    as: "user",
+                    attributes: ["id", "username", "email"]
+                }
             ]
         });
         res.status(200).json({ success: true, message: "List of customers", data: customers });
@@ -22,14 +30,23 @@ exports.getCustomerById = async (req, res) => {
     try {
         const customer = await db.Customer.findByPk(req.params.id, {
             include: [
-                { model: db.Container, attributes: ["id", "code", "status"] },
-                { model: db.Booking, attributes: ["id", "code", "status", "bookingDate"] }
+                {
+                    model: db.Container,
+                    as: "containers",
+                    attributes: ["id", "code", "status"]
+                },
+                {
+                    model: db.User,
+                    as: "user",
+                    attributes: ["id", "username", "email"]
+                }
             ]
         });
 
         if (!customer) {
             return res.status(404).json({ success: false, message: "Customer not found" });
         }
+
         res.status(200).json({ success: true, message: "Customer details", data: customer });
     } catch (error) {
         console.error("Error fetching customer:", error.message);
@@ -40,13 +57,21 @@ exports.getCustomerById = async (req, res) => {
 // Thêm khách hàng mới
 exports.createCustomer = async (req, res) => {
     try {
-        const { name, phone, email, address } = req.body;
+        const { name, contact_person, phone, email, address, user_id } = req.body;
 
         if (!name || !phone) {
             return res.status(400).json({ success: false, message: "Name and phone are required" });
         }
 
-        const customer = await db.Customer.create({ name, phone, email, address });
+        const customer = await db.Customer.create({
+            name,
+            contact_person,
+            phone,
+            email,
+            address,
+            user_id
+        });
+
         res.status(201).json({ success: true, message: "Customer created", data: customer });
     } catch (error) {
         console.error("Error creating customer:", error.message);
@@ -62,9 +87,8 @@ exports.updateCustomer = async (req, res) => {
             return res.status(404).json({ success: false, message: "Customer not found" });
         }
 
-        // chỉ update field có trong body
         const updates = {};
-        ["name", "phone", "email", "address"].forEach((field) => {
+        ["name", "contact_person", "phone", "email", "address", "user_id"].forEach((field) => {
             if (req.body[field] !== undefined) updates[field] = req.body[field];
         });
 
@@ -87,6 +111,7 @@ exports.deleteCustomer = async (req, res) => {
         if (!deleted) {
             return res.status(404).json({ success: false, message: "Customer not found" });
         }
+
         res.status(200).json({ success: true, message: "Customer deleted" });
     } catch (error) {
         console.error("Error deleting customer:", error.message);
