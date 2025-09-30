@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('cargos', {
+    await queryInterface.createTable('Cargos', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,9 +11,8 @@ module.exports = {
       },
       container_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         references: {
-          model: 'containers',
+          model: 'Containers',
           key: 'id'
         },
       },
@@ -21,11 +20,12 @@ module.exports = {
         type: Sequelize.TEXT
       },
       weight: {
-        type: Sequelize.INTEGER
+        type: Sequelize.DECIMAL
       },
       volume: {
-        type: Sequelize.INTEGER
+        type: Sequelize.DECIMAL
       },
+
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -37,6 +37,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('cargos');
+    await queryInterface.dropTable('Cargos');
   }
 };

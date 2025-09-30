@@ -1,7 +1,6 @@
 # Node.js
 node_modules/
-backend-container/node_modules/
-fontend-container/node_modules/
+
 npm-debug.log
 yarn-error.log
 
@@ -11,3 +10,15 @@ build/
 
 # Others
 .env
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build output
+dist/
+build/
+
+# System files
+.DS_Store
+Thumbs.db

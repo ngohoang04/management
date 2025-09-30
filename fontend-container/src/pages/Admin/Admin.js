@@ -66,13 +66,13 @@ function Admin() {
   return (
     <div className="app">
       <Header 
-        currentUser={currentUser}
+        currentUser={currentUser}n
         theme={theme}
         toggleTheme={toggleTheme}
         onLogout={handleLogout}
         sidebarCollapsed={sidebarCollapsed}
         setSidebarCollapsed={setSidebarCollapsed}
-        setSidebarCollapsed={setSidebar}
+       
       />
       
       <div className="app-body">
@@ -95,4 +95,3 @@ function Admin() {
 
 export default Admin;
 
-<Link/>

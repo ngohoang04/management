@@ -1,7 +1,6 @@
-// src/pages/Auth/Login/Login.js
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import './Login.css';
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import "./Login.css";
 
 function Login() {
     const [username, setUsername] = useState('');
@@ -10,51 +9,55 @@ function Login() {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
+    Tự động redirect nếu đã đăng nhập
+    useEffect(() => {
+        const token = localStorage.getItem('accessToken');
+        if (token) {
+            navigate('/admin');
+        }
+    }, [navigate]);
+
     const handleLogin = async (event) => {
         event.preventDefault();
         setError('');
         setLoading(true);
 
         try {
-            // Bước 1: Kiểm tra người dùng trong danh sách cục bộ trước
+            // 1. Kiểm tra localUsers (nếu muốn test nhanh)
             const localUsers = JSON.parse(localStorage.getItem('localUsers')) || [];
-            const localUser = localUsers.find(
-                (u) => u.username === username && u.password === password
-            );
+            const localUser = localUsers.find(u => u.username === username && u.password === password);
 
             if (localUser) {
-                // Nếu tìm thấy trong localStorage, đăng nhập thành công ngay lập tức
-                alert('Đăng nhập thành công (tài khoản cục bộ)!');
-                localStorage.setItem('userToken', `fake-token-for-${localUser.id}`);
+                localStorage.setItem('accessToken', `fake-access-token-${localUser.id}`);
+                localStorage.setItem('refreshToken', `fake-refresh-token-${localUser.id}`);
                 localStorage.setItem('userInfo', JSON.stringify(localUser));
-                navigate('/admin'); // Chuyển hướng đến trang admin
-                return; // Dừng hàm tại đây
+                navigate('/admin');
+                return;
             }
 
-            // Bước 2: Nếu không có trong cục bộ, tiếp tục kiểm tra với API
-            const response = await fetch('https://dummyjson.com/users');
+            // 2. Kiểm tra API
+            const response = await fetch('http://localhost:3000/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+
             const data = await response.json();
 
-            if (!response.ok) throw new Error('Không thể tải dữ liệu người dùng.');
-
-            const apiUser = data.users.find(
-                (u) => u.username === username && u.password === password
-            );
-
-            if (apiUser) {
-                // Đăng nhập thành công với tài khoản từ API
-                alert('Đăng nhập thành công (tài khoản API)!');
-                localStorage.setItem('userToken', `fake-token-for-${apiUser.id}`);
-                localStorage.setItem('userInfo', JSON.stringify(apiUser));
-                navigate('/admin'); // Chuyển hướng đến trang admin
-            } else {
-                // Sai thông tin đăng nhập
-                setError('Tên đăng nhập hoặc mật khẩu không đúng!');
+            if (!response.ok) {
+                throw new Error(data.message || 'Đăng nhập thất bại.');
             }
 
+            // Lưu accessToken, refreshToken và userInfo
+            localStorage.setItem('accessToken', data.accessToken);
+            localStorage.setItem('refreshToken', data.refreshToken);
+            localStorage.setItem('userInfo', JSON.stringify(data.user));
+
+            navigate('/admin');
+
         } catch (err) {
-            setError(err.message);
             console.error('Lỗi đăng nhập:', err);
+            setError(err.message || 'Có lỗi xảy ra. Vui lòng thử lại.');
         } finally {
             setLoading(false);
         }
@@ -71,7 +74,7 @@ function Login() {
                             type="text"
                             id="login-username"
                             value={username}
-                            onChange={(e) => setUsername(e.target.value)}
+                            onChange={e => setUsername(e.target.value)}
                             required
                         />
                     </div>
@@ -81,7 +84,7 @@ function Login() {
                             type="password"
                             id="login-password"
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={e => setPassword(e.target.value)}
                             required
                         />
                     </div>

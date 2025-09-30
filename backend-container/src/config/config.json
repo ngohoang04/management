@@ -2,8 +2,8 @@
   "development": {
     "username": "root",
     "password": null,
-    "database": "container",
-    "port": 3309,
+    "database": "management",
+    "port": 3306,
     "host": "127.0.0.1",
     "dialect": "mysql"
   },

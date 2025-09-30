@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Cargo extends Model {
+  class ContainerHistory extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,23 +11,25 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Cargo.belongsTo(models.Container, {
+      ContainerHistory.belongsTo(models.Container, {
         foreignKey: "container_id",
         as: "container",
       });
+      ContainerHistory.belongsTo(models.User, {
+        foreignKey: "updated_by",
+        as: "updatedBy",
+      });
     }
   }
-  Cargo.init({
+  ContainerHistory.init({
     container_id: DataTypes.INTEGER,
-    description: DataTypes.TEXT,
-    weight: DataTypes.DECIMAL,
-    volume: DataTypes.DECIMAL,
+    status: DataTypes.STRING,
+    updated_by: DataTypes.INTEGER,
   }, {
     sequelize,
-    modelName: "Cargo",
-    tableName: "Cargos",
-    timestamps: false, // chỉ có created_at, không cần updatedAt
-
+    modelName: "ContainerHistory",
+    tableName: "ContainerHistories",
+    timestamps: true,
   });
-  return Cargo;
+  return ContainerHistory;
 };

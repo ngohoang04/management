@@ -1,85 +1,110 @@
-// UserControllers.js
-import { Sequelize } from "sequelize";
-import db from '../models/index.js';
-export async function getUsers(req, res) {
-    try {
-        const users = await db.User.findAll();
-        res.status(200).json({
-            message: 'List of users',
-            data: users
-        });
-    } catch (error) {
-        console.error('Error fetching users:', error);
-        res.status(500).json({ message: 'Error fetching users' });
-    }
-}
+const bcrypt = require("bcrypt");
+const db = require("../models/index.js");
+const { generateToken } = require("../utils/jwt.js");
 
-export async function insertUser(req, res) {
+// Lấy danh sách user
+const getAllUsers = async (req, res) => {
     try {
-        console.log(JSON.stringify(req.body));
-        const user = await db.User.create(req.body)
+        const users = await db.User.findAll({
+            attributes: { exclude: ["password_hash"] } // Ẩn password
+        });
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
+
+// Thêm user (manual)
+const createUser = async (req, res) => {
+    try {
+        const { username, password, full_name, email, phone, role } = req.body;
+        const password_hash = await bcrypt.hash(password, 10);
+
+        const user = await db.User.create({
+            username,
+            password_hash,
+            full_name,
+            email,
+            phone,
+            role
+        });
+
         res.status(201).json({
-            message: 'User inserted',
-            data: user
+            message: "User created successfully",
+            user: {
+                id: user.id,
+                username: user.username,
+                full_name: user.full_name,
+                email: user.email,
+                phone: user.phone,
+                role: user.role
+            }
         });
     } catch (error) {
-        console.error('Error inserting user:', error);
-        res.status(500).json({ message: 'Error inserting user' });
+        res.status(500).json({ error: error.message });
     }
-}
+};
 
-export async function updateUser(req, res) {
+// Cập nhật user
+const updateUser = async (req, res) => {
     try {
-        const { id } = req.params;
-        const [updated] = await db.User.update(req.body, {
-            where: { id }
+        const { username, password, full_name, email, phone, role } = req.body;
+
+        const user = await db.User.findByPk(req.params.id);
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        let password_hash = user.password_hash;
+        if (password) {
+            password_hash = await bcrypt.hash(password, 10);
+        }
+
+        await user.update({
+            username,
+            password_hash,
+            full_name,
+            email,
+            phone,
+            role
         });
-        if (updated) {
-            const updatedUser = await db.User.findByPk(id);
-            res.status(200).json({
-                message: 'User updated',
-                data: updatedUser
-            });
-        } else {
-            res.status(404).json({ message: 'User not found' });
-        }
-    } catch (error) {
-        console.error('Error updating user:', error);
-        res.status(500).json({ message: 'Error updating user' });
-    }
-}
 
-export async function deleteUser(req, res) {
+        res.status(200).json({ message: "User updated successfully", user });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// Xóa user
+const deleteUser = async (req, res) => {
     try {
-        const { id } = req.params;
-        const deleted = await db.User.destroy({
-            where: { id }
+        const user = await db.User.findByPk(req.params.id);
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        await user.destroy();
+        res.status(200).json({ message: "User deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// Lấy user theo ID
+const getUserById = async (req, res) => {
+    try {
+        const user = await db.User.findByPk(req.params.id, {
+            attributes: { exclude: ["password_hash"] }
         });
-        if (deleted) {
-            res.status(200).json({ message: 'User deleted' });
-        } else {
-            res.status(404).json({ message: 'User not found' });
-        }
+        if (!user) return res.status(404).json({ message: "User not found" });
+        res.status(200).json(user);
     } catch (error) {
-        console.error('Error deleting user:', error);
-        res.status(500).json({ message: 'Error deleting user' });
+        res.status(500).json({ error: error.message });
     }
-}
+};
 
-export async function getUserById(req, res) {
-    try {
-        const { id } = req.params;
-        const user = await db.User.findByPk(id);
-        if (user) {
-            res.status(200).json({
-                message: 'User details',
-                data: user
-            });
-        } else {
-            res.status(404).json({ message: 'User not found' });
-        }
-    } catch (error) {
-        console.error('Error fetching user by ID:', error);
-        res.status(500).json({ message: 'Error fetching user by ID' });
-    }
-}
+module.exports = {
+    getAllUsers,
+    createUser,
+    updateUser,
+    deleteUser,
+    getUserById,
+};
