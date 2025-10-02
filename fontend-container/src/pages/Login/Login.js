@@ -9,13 +9,13 @@ function Login() {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    // Tự động redirect nếu đã đăng nhập
-    useEffect(() => {
-        const token = localStorage.getItem('accessToken');
-        if (token) {
-            navigate('/admin');
-        }
-    }, [navigate]);
+    // // Tự động redirect nếu đã đăng nhập
+    // useEffect(() => {
+    //     const token = localStorage.getItem('accessToken');
+    //     if (token) {
+    //         navigate('/admin');
+    //     }
+    // }, [navigate]);
 
     const handleLogin = async (event) => {
         event.preventDefault();
@@ -36,7 +36,7 @@ function Login() {
             }
 
             // 2. Kiểm tra API
-            const response = await fetch('http://localhost:3000/api/auth/login', {
+            const response = await fetch('http://localhost:3001/api/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password })
