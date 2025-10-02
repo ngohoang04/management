@@ -1,5 +1,5 @@
 // Backend URL (đúng port Node.js chứ không phải MySQL)
-const API_DOMAIN = "http://localhost:3000/api/";
+const API_DOMAIN = "http://localhost:3001/api/";
 
 // Helper POST
 export const post = async (path, body) => {

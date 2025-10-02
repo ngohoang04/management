@@ -9,7 +9,7 @@ import {
   FiBell,
   FiSettings
 } from 'react-icons/fi';
-import '../Style/header.css';
+
 const Header = ({ 
   currentUser, 
   theme, 
@@ -57,10 +57,10 @@ const Header = ({
       </div>
 
       <div className="header-right">
-        <button className="header-btn notification-btn">
+        {/* <button className="header-btn notification-btn">
           <FiBell />
           <span className="notification-badge">5</span>
-        </button>
+        </button> */}
 
         <button className="header-btn theme-toggle" onClick={toggleTheme}>
           {theme === 'light' ? <FiMoon /> : <FiSun />}

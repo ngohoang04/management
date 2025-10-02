@@ -1,104 +1,145 @@
-/* src/components/Layout/LayoutDefaut.css */
+/* --- RESET & FONT --- */
+* {
+  box-sizing: border-box;
+}
 
-/* Header Styles */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f4f7fa;
+  color: #333;
+}
+
+/* --- LAYOUT CONTAINER --- */
+.layout-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+  width: 250px;
+  background-color: #ffffff;
+  border-right: 1px solid #e9ecef;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  display: flex;
+  padding: 20px;
+  text-align: center;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 500;
+  justify-content: center;
+  color: #343a40;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.sidebar-nav li a {
+  display: flex;
+  align-items: center;
+  padding: 14px 25px;
+  text-decoration: none;
+  color: #495057;
+  font-weight: 500;
+  transition: background-color 0.3s, color 0.3s;
+  border-right: 4px solid transparent;
+  margin: 5px 10px;
+  border-radius: 8px;
+}
+
+.sidebar-nav li a:hover {
+  background-color: #f8f9fa;
+  color: #0d6efd;
+}
+
+.sidebar-nav a.active {
+  background-color: #e9ecef;
+  color: #0d6efd;
+  font-weight: 700;
+  border-right-color: #0d6efd;
+}
+
+.nav-icon {
+  margin-right: 15px;
+  font-size: 1.2em;
+}
+
+/* --- MAIN AREA (Header + Content) --- */
+.main-area {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* --- HEADER --- */
 .header {
-    background-color: #fff;
-    padding: 15px 30px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 31px;
+  height: 70px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e9ecef;
 }
 
-.header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1400px;
-    margin: 0 auto;
-    /* Thêm gap để kiểm soát khoảng cách tổng thể */
-    gap: 20px;
+.menu-icon {
+  font-size: 1.5rem;
+  color: #343a40;
+  cursor: pointer;
 }
 
-.logo-text {
-    font-weight: 900;
-    font-size: 24px;
-    color: #333;
-    text-decoration: none;
-    position: relative;
-    transition: color 0.3s;
+.header-user-info {
+  display: flex;
+  align-items: center;
+  gap: 25px;
 }
 
-.logo-text:hover {
-    color: #8A2BE2;
+.theme-icon {
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: #6c757d;
 }
 
-/* Navigation Styles */
-.navigation ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    /* Tăng khoảng cách giữa các mục menu */
-    gap: 35px;
+.user-details {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.navigation a {
-    text-decoration: none;
-    color: #333;
-    font-weight: 700;
-    font-size: 16px;
-    transition: color 0.3s, border-bottom 0.3s;
-    padding-bottom: 5px;
-    position: relative;
+.user-avatar {
+  font-size: 2.6rem;
+  color: #adb5bd;
 }
 
-.navigation a:hover {
-    color: #8A2BE2;
+.user-text {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  line-height: 1.4;
 }
 
-/* Hiệu ứng gạch chân động */
-.navigation a::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -2px;
-    left: 0;
-    background-color: #8A2BE2;
-    transition: width 0.3s ease-in-out;
+.user-name {
+  font-weight: 600;
+  font-size: 0.95rem;
 }
 
-.navigation a:hover::after {
-    width: 100%;
+.user-role {
+  font-size: 0.8rem;
+  color: #6c757d;
 }
 
-/* Style cho mục đang hoạt động (active) */
-.navigation .active {
-    color: #8A2BE2;
-}
-
-.navigation .active::after {
-    width: 100%;
-}
-
-/* Login Button Styles */
-.Login a {
-    background-color: #1E90FF;
-    color: white;
-    padding: 12px 24px;
-    border-radius: 999px;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 16px;
-    transition: background-color 0.3s;
-}
-
-.Login a:hover {
-    background-color: #1a73e8;
-}
-
-/* Main Content Styles */
-.main-content {
-    min-height: calc(100vh - 120px);
+/* --- PAGE CONTENT --- */
+.content {
+  padding: 20px;
+  flex-grow: 1;
 }

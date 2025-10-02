@@ -1,0 +1,185 @@
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .dashboard-grid,
+  .detail-grid,
+  .report-charts {
+    grid-template-columns: 1fr;
+  }
+  
+  .settings-layout {
+    grid-template-columns: 1fr;
+  }
+  
+  .settings-sidebar {
+    display: flex;
+    overflow-x: auto;
+    padding: var(--spacing-md);
+  }
+  
+  .settings-tab {
+    white-space: nowrap;
+    margin-right: var(--spacing-sm);
+    margin-bottom: 0;
+  }
+
+  .business-stats,
+  .performance-stats {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --sidebar-width: 100vw;
+  }
+  
+  .sidebar {
+    position: fixed;
+    top: var(--header-height);
+    left: -100%;
+    height: calc(100vh - var(--header-height));
+    z-index: 1000;
+    transition: left var(--transition-normal);
+  }
+  
+  .sidebar.open {
+    left: 0;
+  }
+  
+  .sidebar.collapsed {
+    left: -100%;
+    width: var(--sidebar-width);
+  }
+  
+  .main-content {
+    margin-left: 0;
+    padding: var(--spacing-md);
+  }
+  
+  .page-header {
+    flex-direction: column;
+    gap: var(--spacing-md);
+    align-items: flex-start;
+  }
+  
+  .page-controls {
+    flex-direction: column;
+  }
+  
+  .search-bar {
+    max-width: none;
+  }
+  
+  .stats-grid,
+  .outbound-stats,
+  .transport-stats,
+  .customer-stats,
+  .supplier-stats,
+  .quality-stats {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--spacing-md);
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .action-buttons {
+    flex-wrap: wrap;
+  }
+  
+  .modal {
+    margin: var(--spacing-md);
+    max-height: calc(100vh - var(--spacing-xl));
+  }
+  
+  .toast-container {
+    left: var(--spacing-md);
+    right: var(--spacing-md);
+    max-width: none;
+  }
+  
+  .containers-table,
+  .orders-table,
+  .transports-table,
+  .customers-table,
+  .suppliers-table {
+    overflow-x: auto;
+  }
+  
+  .containers-table table,
+  .orders-table table,
+  .transports-table table,
+  .customers-table table,
+  .suppliers-table table {
+    min-width: 800px;
+  }
+
+  .report-controls {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .report-type-selector {
+    flex-wrap: wrap;
+  }
+
+  .summary-cards {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+
+  .capacity-details {
+    grid-template-columns: 1fr;
+  }
+
+  .zones-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .action-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 0 var(--spacing-md);
+  }
+  
+  .header-title {
+    font-size: 16px;
+  }
+
+  .header-subtitle {
+    display: none;
+  }
+  
+  .main-content {
+    padding: var(--spacing-md);
+  }
+  
+  .stat-card {
+    padding: var(--spacing-lg);
+  }
+  
+  .stat-card-value,
+  .stat-value {
+    font-size: 24px;
+  }
+  
+  .modal-actions {
+    flex-direction: column-reverse;
+  }
+  
+  .btn {
+    justify-content: center;
+  }
+
+  .report-type-selector {
+    flex-direction: column;
+  }
+
+  .type-btn {
+    justify-content: center;
+  }
+}

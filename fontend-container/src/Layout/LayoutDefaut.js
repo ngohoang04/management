@@ -1,49 +1,60 @@
-import { Link, NavLink, Outlet } from 'react-router-dom';
 import React from 'react';
 import './LayoutDefaut.css';
+import { NavLink, Outlet } from 'react-router-dom';
+import { FaHome, FaSignInAlt, FaRegMoon, FaUserCircle, FaBars } from 'react-icons/fa';
 
-function LayoutDefault() {
-    return (
-        <>
-            <header className="header">
-                <div className="header-container">
-                    <div className="logo">
-                        <Link to="/">
-                            <span className="logo-text">Quản Lý Container</span>
-                        </Link>
-                    </div>
-                    <nav className="navigation">
-                        <ul>
-                            <li>    
-                                <NavLink to="/" exact="true">
-                                    Trang chủ
-                                </NavLink>
-                            </li>
-                           
-                            <li>
-                                <NavLink to="/introduction">
-                                    Giới thiệu
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink to="/service">
-                                    Dịch vụ
-                                </NavLink>
-                            </li>
-                        </ul>
-                    </nav>
+const LayoutDefaut = () => {
+  return (
+    <div className="layout-container">
+      {/* ===== SIDEBAR ===== */}
+      <aside className="sidebar">
+        <div className="sidebar-header">
+          <h4>QUẢN LÝ CONTAINER</h4>
+        </div>
+        <nav className="sidebar-nav">
+          <ul>
+            <li>
+              <NavLink to="/" end>
+                <FaHome className="nav-icon" />
+                <span>Home</span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/login">
+                <FaSignInAlt className="nav-icon" />
+                <span>Login</span>
+              </NavLink>
+            </li>
+          </ul>
+        </nav>
+      </aside>
 
-                    <div className="Login">
-                        <Link to="/Login">Đăng nhập</Link>
-                    </div>
-                </div>
-            </header>
+      {/* ===== MAIN AREA ===== */}
+      <div className="main-area">
+        {/* ===== HEADER ===== */}
+        <header className="header">
+          <div className="header-left">
+            {/* <FaBars className="menu-icon" /> */}
+          </div>
+          <div className="header-user-info">
+            <FaRegMoon className="theme-icon" />
+            <div className="user-details">
+              <FaUserCircle className="user-avatar" />
+              {/* <div className="user-text">
+                <span className="user-name">Admin</span>
+                <span className="user-role">Quản Lý Kho</span>
+              </div> */}
+            </div>
+          </div>
+        </header>
 
-            <main className="main-content">
-                <Outlet />
-            </main>
-        </>
-    );
-}
+        {/* ===== PAGE CONTENT ===== */}
+        <main className="content">
+          <Outlet />
+        </main>
+      </div>
+    </div>
+  );
+};
 
-export default LayoutDefault;
+export default LayoutDefaut;
