@@ -1,66 +1,46 @@
-// src/routes/index.js (hoặc file routes của bạn)
+// src/routes/index.js
+import React from "react";
+import LayoutDefault from "../Layout/LayoutDefaut";
+import LayoutPrivate from "../Layout/LayoutPrivate";
 
-import React from 'react';
-// import { Routes, Route } from 'react-router-dom'; // Không cần 2 dòng này nữa
-// vì chúng ta sẽ dùng useRoutes
-
-import LayoutDefault from '../Layout/LayoutDefaut';
-import Home from '../pages/Home/Home';
-import Client from '../pages/Client/Client';
-import Introduction from '../pages/Introduction/Introduction';
-import Service from '../pages/Service/Service';
-import Login from '../pages/Login/Login';
-import Register from '../pages/Register/Register'; // Thêm trang Register
-import Error404 from '../pages/Error404/Error404';
-import PrivateRoutes from '../components/PrivateRoutes';
+import Home from "../pages/Home/Home";
+import Client from "../pages/Client/Client";
+import Introduction from "../pages/Introduction/Introduction";
+import Service from "../pages/Service/Service";
+import Login from "../pages/Login/Login";
+import Register from "../pages/Register/Register";
+import Error404 from "../pages/Error404/Error404";
+import Dashboard from "../pages/Dashboard/Dashboard"; // ví dụ thêm
+import PrivateRoutes from "../components/PrivateRoutes";
 
 const routes = [
-    {
-        // Layout chính sẽ bao bọc tất cả các route con bên trong nó
-        element: <LayoutDefault />,
+  // --- Layout cho Public ---
+  {
+    element: <LayoutDefault />,
+    children: [
+      { path: "/", element: <Home /> },
+      { path: "introduction", element: <Introduction /> },
+      { path: "service", element: <Service /> },
+      { path: "login", element: <Login /> },
+      { path: "register", element: <Register /> },
+      { path: "*", element: <Error404 /> },
+    ],
+  },
+
+  // --- Layout cho Private ---
+  {
+    element: <PrivateRoutes />, // bảo vệ toàn bộ nhánh private
+    children: [
+      {
+        element: <LayoutPrivate />, // layout riêng cho user đã đăng nhập
         children: [
-            // --- Các route công khai (Public) ---
-            {
-                path: '/',
-                element: <Home />
-            },
-            {
-                path: 'introduction',
-                element: <Introduction />
-            },
-            {
-                path: 'service',
-                element: <Service />
-            },
-            {
-                path: 'login',
-                element: <Login />
-            },
-            {
-                path: 'register', // Thêm route cho trang Register
-                element: <Register />
-            },
-
-            // --- Nhóm các route cần bảo vệ (Private) ---
-            {
-                element: <PrivateRoutes />,
-                children: [
-                    {
-                        path: 'client', // Ví dụ: trang Khách hàng cần đăng nhập
-                        element: <Client />
-                    },
-                    // Thêm các trang private khác ở đây, ví dụ: /dashboard, /profile...
-                ]
-            },
-
-            // --- Route cho trang không tồn tại ---
-            {
-                path: '*',
-                element: <Error404 />
-            }
-        ]
-    },
-    // Không cần route cho Logout, vì logout là một hành động, không phải một trang
+          { path: "client", element: <Client /> },
+          { path: "dashboard", element: <Dashboard /> },
+          // thêm private pages ở đây
+        ],
+      },
+    ],
+  },
 ];
 
 export default routes;
