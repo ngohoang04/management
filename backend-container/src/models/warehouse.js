@@ -1,27 +1,68 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
-  class warehouse extends Model {
+  class Warehouse extends Model {
     /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
+     * Định nghĩa mối quan hệ giữa Warehouse và các model khác
      */
     static associate(models) {
-      // define association here
+      // Ví dụ: một kho chứa nhiều container
+      // Warehouse.hasMany(models.Container, { foreignKey: 'warehouse_id', as: 'containers' });
     }
   }
-  warehouse.init({
-    warehouse_id: DataTypes.INTEGER,
-    name: DataTypes.STRING,
-    location: DataTypes.STRING,
-    capacity: DataTypes.INTEGER,
-    current_occupancy: DataTypes.INTEGER
-  }, {
-    sequelize,
-    modelName: 'warehouse',
-  });
-  return warehouse;
+
+  Warehouse.init(
+    {
+      // ID kho (primary key)
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+      },
+
+      // Tên kho
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [3, 100]
+        }
+      },
+
+      // Địa chỉ hoặc vị trí của kho
+      location: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+
+      // Sức chứa tối đa (tổng số container/khoang)
+      capacity: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          min: 0
+        }
+      },
+
+      // Số lượng hiện tại đang chứa
+      current_occupancy: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+        validate: {
+          min: 0
+        }
+      }
+    },
+    {
+      sequelize,
+      modelName: 'Warehouse',
+      tableName: 'warehouses',
+      underscored: true, // Chuyển tên cột sang snake_case
+      timestamps: true // Tự động thêm created_at, updated_at
+    }
+  );
+
+  return Warehouse;
 };

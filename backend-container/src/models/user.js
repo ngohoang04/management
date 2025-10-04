@@ -1,35 +1,72 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
+const bcrypt = require('bcryptjs');
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
+     * Định nghĩa các mối quan hệ giữa model này với model khác
      */
     static associate(models) {
-      // define association here
+      // Ví dụ:
+      // User.hasMany(models.Container, { foreignKey: 'user_id' });
+    }
+
+    /**
+     * Hàm so sánh mật khẩu khi đăng nhập
+     */
+    async comparePassword(password) {
+      return await bcrypt.compare(password, this.password);
     }
   }
-  User.init({
-    username: DataTypes.STRING,
-    password: DataTypes.STRING,
-    fullname: DataTypes.STRING,
-    mail: DataTypes.STRING,
-    phone: DataTypes.STRING,
-    role: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'User',
-    tableName: 'users',
-    underscored: true
-  },
+
+  User.init(
+    {
+      username: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          len: [3, 50]
+        }
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      fullname: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+      mail: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          isEmail: true
+        }
+      },
+      phone: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        validate: {
+          is: /^[0-9]{9,15}$/i
+        }
+      },
+      role: {
+        type: DataTypes.ENUM('admin', 'user', 'manager'),
+        defaultValue: 'user'
+      }
+    },
     {
       sequelize,
       modelName: 'User',
+      tableName: 'users',
+      underscored: true,
       hooks: {
+        /**
+         * Tự động hash mật khẩu trước khi lưu
+         */
         beforeCreate: async (user) => {
           if (user.password) {
             const salt = await bcrypt.genSalt(10);
@@ -45,5 +82,6 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   );
+
   return User;
 };
