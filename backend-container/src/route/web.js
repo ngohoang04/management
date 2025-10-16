@@ -17,56 +17,67 @@ router.post("/auth/register", AuthControllers.register);
 router.post("/auth/login", AuthControllers.login);
 
 // User routes
-router.get("/users", verifyToken, UserControllers.getAllUsers);        // Lấy danh sách user
-router.get("/users/:id", verifyToken, UserControllers.getUserById);     // Lấy 1 user theo id
-router.post("/users", verifyToken, UserControllers.createUser);        // Tạo user mới
-router.put("/users/:id", verifyToken, UserControllers.updateUser);      // Cập nhật user
-router.delete("/users/:id", verifyToken, UserControllers.deleteUser);   // Xóa user
+router.get("/users", UserControllers.getAllUsers);        // Lấy danh sách user
+router.get("/users/:id", UserControllers.getUserById);     // Lấy 1 user theo id
+router.put("/users/:id", UserControllers.updateUser);      // Cập nhật user
+router.delete("/users/:id", UserControllers.deleteUser);   // Xóa user
+router.put("/users/:id/change-password", UserControllers.changePassword); // Đổi mật khẩu user
 
 // Container routes
-router.get("/containers", verifyToken, ContainerControllers.getContainers);
-router.post("/containers", verifyToken, ContainerControllers.insertContainer);
-router.put("/containers/:id", verifyToken, ContainerControllers.updateContainer);
-router.delete("/containers/:id", verifyToken, ContainerControllers.deleteContainer);
-router.get("/containers/:id", verifyToken, ContainerControllers.getContainerById);
+router.get("/containers", ContainerControllers.getContainers);
+router.post("/containers", ContainerControllers.insertContainer);
+router.put("/containers/:id", ContainerControllers.updateContainer);
+router.delete("/containers/:id", ContainerControllers.deleteContainer);
+router.get("/containers/:id", ContainerControllers.getContainerById);
+router.get("/containers/count", ContainerControllers.countByWarehouse);
+router.get("/containers/count-by-type", ContainerControllers.countByType);
+router.get("/containers/count-by-status", ContainerControllers.countByStatus);
+router.get("/containers/count-by-warehouse", ContainerControllers.countByWarehouse);
+router.get("/containers/count-by-supplier", ContainerControllers.countBySupplier);
+router.get("/containers/count-by-customer", ContainerControllers.countByCustomer);
 
 // Customer routes
-router.get("/customers", verifyToken, CustomerController.getCustomers);
-router.get("/customers/:id", verifyToken, CustomerController.getCustomerById);
-router.post("/customers", verifyToken, CustomerController.createCustomer);
-router.put("/customers/:id", verifyToken, CustomerController.updateCustomer);
-router.delete("/customers/:id", verifyToken, CustomerController.deleteCustomer);
+router.get("/customers", CustomerController.getCustomers);
+router.get("/customers/:id", CustomerController.getCustomerById);
+router.post("/customers", CustomerController.createCustomer);
+router.put("/customers/:id", CustomerController.updateCustomer);
+router.delete("/customers/:id", CustomerController.deleteCustomer);
 
 // Cargo routes
-router.get("/cargoes", verifyToken, CargoControllers.getCargos);
-router.get("/cargoes/:id", verifyToken, CargoControllers.getCargoById);
-router.post("/cargoes", verifyToken, CargoControllers.createCargo);
-router.put("/cargoes/:id", verifyToken, CargoControllers.updateCargo);
-router.delete("/cargoes/:id", verifyToken, CargoControllers.deleteCargo);
+router.get("/cargoes", CargoControllers.getCargos);
+router.get("/cargoes/:id", CargoControllers.getCargoById);
+router.post("/cargoes", CargoControllers.createCargo);
+router.put("/cargoes/:id", CargoControllers.updateCargo);
+router.delete("/cargoes/:id", CargoControllers.deleteCargo);
 
 // Report routes
-
+router.get("/reports", ReportControllers.getReports);
+router.get("/reports/:id", ReportControllers.getReportById);
+router.post("/reports", ReportControllers.createReport);
+router.put("/reports/:id", ReportControllers.updateReport);
+router.get("/reports/export", ReportControllers.exportReportsToExcel);
+router.delete("/reports/:id", ReportControllers.deleteReport);
 
 // Container History routes
-router.get("/container-histories", verifyToken, ContainerHistoryControllers.getContainerHistories);
-router.get("/container-histories/:id", verifyToken, ContainerHistoryControllers.getContainerHistoryById);
-router.post("/container-histories", verifyToken, ContainerHistoryControllers.createContainerHistory);
-router.put("/container-histories/:id", verifyToken, ContainerHistoryControllers.updateContainerHistory);
-router.delete("/container-histories/:id", verifyToken, ContainerHistoryControllers.deleteContainerHistory);
+router.get("/container-histories", ContainerHistoryControllers.getContainerHistories);
+router.get("/container-histories/:id", ContainerHistoryControllers.getContainerHistoryById);
+router.post("/container-histories", ContainerHistoryControllers.createContainerHistory);
+router.put("/container-histories/:id", ContainerHistoryControllers.updateContainerHistory);
+router.delete("/container-histories/:id", ContainerHistoryControllers.deleteContainerHistory);
 
 // Warehouse routes
-router.get("/warehouses", verifyToken, WarehouseControllers.getWarehouses);
-router.get("/warehouses/:id", verifyToken, WarehouseControllers.getWarehouseById);
-router.post("/warehouses", verifyToken, WarehouseControllers.createWarehouse);
-router.put("/warehouses/:id", verifyToken, WarehouseControllers.updateWarehouse);
-router.delete("/warehouses/:id", verifyToken, WarehouseControllers.deleteWarehouse);
+router.get("/warehouses", WarehouseControllers.getWarehouses);
+router.get("/warehouses/:id", WarehouseControllers.getWarehouseById);
+router.post("/warehouses", WarehouseControllers.createWarehouse);
+router.put("/warehouses/:id", WarehouseControllers.updateWarehouse);
+router.delete("/warehouses/:id", WarehouseControllers.deleteWarehouse);
 
 // Supplier routes
-router.get("/suppliers", verifyToken, SupplierControllers.getSuppliers);
-router.get("/suppliers/:id", verifyToken, SupplierControllers.getSupplierById);
-router.post("/suppliers", verifyToken, SupplierControllers.createSupplier);
-router.put("/suppliers/:id", verifyToken, SupplierControllers.updateSupplier);
-router.delete("/suppliers/:id", verifyToken, SupplierControllers.deleteSupplier);
+router.get("/suppliers", SupplierControllers.getSuppliers);
+router.get("/suppliers/:id", SupplierControllers.getSupplierById);
+router.post("/suppliers", SupplierControllers.createSupplier);
+router.put("/suppliers/:id", SupplierControllers.updateSupplier);
+router.delete("/suppliers/:id", SupplierControllers.deleteSupplier);
 
 
 

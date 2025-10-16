@@ -9,7 +9,7 @@ exports.getCustomers = async (req, res) => {
                 {
                     model: db.Container,
                     as: "containers",
-                    attributes: ["id", "code", "status"]
+                    attributes: ["id", "container_code", "status"]
                 },
                 {
                     model: db.User,
@@ -33,7 +33,7 @@ exports.getCustomerById = async (req, res) => {
                 {
                     model: db.Container,
                     as: "containers",
-                    attributes: ["id", "code", "status"]
+                    attributes: ["id", "container_code", "status"]
                 },
                 {
                     model: db.User,

@@ -1,5 +1,6 @@
 // controllers/ReportController.js
 import db from "../models/index.js";
+import ExcelJS from "exceljs";
 
 // Lấy danh sách báo cáo
 export async function getReports(req, res) {
@@ -8,7 +9,7 @@ export async function getReports(req, res) {
             include: [
                 { model: db.User, as: "author", attributes: ["id", "username", "email"] }
             ],
-            order: [["created_at", "DESC"]]
+            order: [["createdAt", "DESC"]]
         });
 
         res.status(200).json({ success: true, message: "List of reports", data: reports });
@@ -98,5 +99,62 @@ export async function deleteReport(req, res) {
     } catch (error) {
         console.error("Error deleting report:", error.message);
         res.status(500).json({ success: false, message: "Error deleting report" });
+    }
+}
+
+export async function exportReportsToExcel(req, res) {
+    try {
+        const reports = await db.Report.findAll({
+            include: [
+                { model: db.User, as: "author", attributes: ["username", "email"] }
+            ],
+            order: [["createdAt", "DESC"]]
+        });
+
+        // Tạo workbook và worksheet
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet("Reports");
+
+        // Tạo tiêu đề cột
+        worksheet.columns = [
+            { header: "ID", key: "id", width: 10 },
+            { header: "Loại báo cáo", key: "report_type", width: 20 },
+            { header: "Nội dung", key: "content", width: 50 },
+            { header: "Tác giả", key: "author", width: 20 },
+            { header: "Email", key: "email", width: 25 },
+            { header: "Ngày tạo", key: "createdAt", width: 20 },
+        ];
+
+        // Ghi dữ liệu vào bảng
+        reports.forEach((report) => {
+            worksheet.addRow({
+                id: report.id,
+                report_type: report.report_type,
+                content: report.content,
+                author: report.author?.username || "N/A",
+                email: report.author?.email || "N/A",
+                createdAt: new Date(report.createdAt).toLocaleString("vi-VN"),
+            });
+        });
+
+        // Thiết lập kiểu in đậm cho header
+        worksheet.getRow(1).font = { bold: true };
+
+        // Tạo buffer Excel
+        const buffer = await workbook.xlsx.writeBuffer();
+
+        // Gửi file về client
+        res.setHeader(
+            "Content-Disposition",
+            "attachment; filename=reports.xlsx"
+        );
+        res.setHeader(
+            "Content-Type",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        );
+        res.send(buffer);
+    } catch (error) {
+        console.error("Error exporting reports to Excel:", error.message);
+        res.status(500).json({ success: false, message: "Error exporting reports to Excel" });
     }
 }

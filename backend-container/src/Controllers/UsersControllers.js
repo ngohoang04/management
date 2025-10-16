@@ -101,10 +101,34 @@ const getUserById = async (req, res) => {
     }
 };
 
+const changePassword = async (req, res) => {
+    try {
+        const { oldPassword, newPassword } = req.body;
+        const userId = req.params.id;
+
+        const user = await db.User.findByPk(userId);
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        // Kiểm tra mật khẩu cũ
+        const match = await bcrypt.compare(oldPassword, user.password_hash);
+        if (!match) return res.status(400).json({ message: "Mật khẩu cũ không đúng" });
+
+        // Hash mật khẩu mới
+        const newHash = await bcrypt.hash(newPassword, 10);
+        await user.update({ password_hash: newHash });
+
+        res.status(200).json({ message: "Đổi mật khẩu thành công" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Lỗi server" });
+    }
+};
+
 module.exports = {
     getAllUsers,
     createUser,
     updateUser,
+    changePassword,
     deleteUser,
     getUserById,
 };

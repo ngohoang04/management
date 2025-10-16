@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: "User",
     tableName: "Users",
-    timestamps: true, // dùng createdAt, updatedAt mặc định
+    timestamps: true,
 
   });
   return User;

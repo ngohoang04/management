@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: "Cargo",
     tableName: "Cargos",
-    timestamps: false, // chỉ có created_at, không cần updatedAt
+    timestamps: false,
 
   });
   return Cargo;
