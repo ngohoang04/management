@@ -1,0 +1,53 @@
+/* --- Main Sidebar Container --- */
+.sidebar-container {
+  width: 220px;
+  background-color: #1f2937; /* Dark gray-blue */
+  color: white;
+  height: 100vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Title --- */
+.sidebar-title {
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  padding-left: 10px; /* Căn lề cho đẹp */
+}
+
+/* --- Navigation List --- */
+.sidebar-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-nav-item {
+  margin-bottom: 10px;
+}
+
+/* --- Navigation Link --- */
+.sidebar-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Tăng khoảng cách một chút */
+  text-decoration: none;
+  color: #d1d5db; /* Màu xám nhạt cho chữ */
+  padding: 10px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* --- Hover State --- */
+.sidebar-nav-link:hover {
+  background-color: #374151; /* Gray */
+  color: white;
+}
+
+/* --- Active State --- */
+.sidebar-nav-link.active {
+  background-color: #4f46e5; /* Màu xanh tím nổi bật */
+  color: white;
+  font-weight: 500;
+}
