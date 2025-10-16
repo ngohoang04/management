@@ -1,0 +1,95 @@
+/* --- Biến màu --- */
+:root {
+  --primary-color: rgb(62, 62, 214);
+  --primary-dark: rgb(62, 62, 214);
+  --primary-light: #f0f2ff;
+  --text-dark: #333;       /* Màu chữ chính (tối) */
+  --text-light: #555;      /* Màu chữ phụ (tối) */
+  --danger-color: rgb(62, 62, 214);
+  --danger-dark: rgb(51, 51, 99);
+  --bg-main: #f8faff;       /* Nền nội dung chính (hơi xám/tím) */
+  --white: #ffffff;
+  --border-light: #e0e0e0;
+}
+
+/* --- Tổng thể layout --- */
+.adminLayout {
+  display: flex;
+  height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* --- Sidebar --- */
+.sidebar {
+  width: 240px;
+  background-color: var(--white); /* Nền trắng */
+  color: var(--text-dark);
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05); /* Đổ bóng nhẹ */
+  border-right: 1px solid var(--border-light); /* Thêm viền phải */
+}
+
+.sidebar h3 {
+  color: var(--primary-dark); /* Màu tím đậm cho tiêu đề */
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+}
+
+.sidebarNav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* --- Các liên kết trong Sidebar --- */
+.navLink {
+  display: block;
+  padding: 12px 15px;
+  color: var(--text-light); /* Màu chữ tối (nhạt) */
+  text-decoration: none;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.navLink:hover {
+  background-color: var(--primary-light); /* Nền tím rất nhạt khi hover */
+  color: var(--primary-dark);
+}
+
+/* Style cho link đang active (trang hiện tại) */
+.navLink.active {
+  background-color: var(--primary-color); /* Nền tím chủ đạo */
+  color: var(--white); /* Chữ trắng */
+  font-weight: bold;
+}
+
+/* Nút Đăng xuất */
+.logoutButton {
+  background: var(--danger-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: auto;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.logoutButton:hover {
+  background: var(--danger-dark);
+}
+
+/* --- Main Content --- */
+.mainContent {
+  flex: 1;
+  background-color: var(--bg-main); /* Giữ nền xám/tím nhạt */
+  padding: 2rem;
+  overflow-y: auto;
+}

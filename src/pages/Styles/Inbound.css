@@ -1,0 +1,313 @@
+/* --- Biến màu chủ đạo --- */
+:root {
+  --primary-color: rgb(62, 62, 214);
+  --primary-dark: rgb(45, 45, 180);
+  --primary-light: rgb(235, 235, 255);
+  --bg-main: #f8faff; /* Nền xám-xanh rất nhạt */
+  --text-dark: #333;
+  --text-light: #555;
+  --border-color: #d1d9e6;
+  --white: #ffffff;
+  --shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+  /* Màu nút */
+  --success: #28a745;
+  --danger: #dc3545;
+  --warning: #ffc107;
+  --info: #17a2b8;
+  --secondary: #6c757d;
+}
+
+/* --- Wrapper tổng thể --- */
+.container-crud-wrapper {
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-dark);
+}
+
+/* --- Thanh công cụ (Header) --- */
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.toolbar h2 {
+  font-size: 2rem;
+  color: var(--primary-dark);
+  margin: 0;
+}
+
+/* --- Ẩn Form cũ (vì đã chuyển sang Modal) --- */
+.container-form {
+  display: none;
+}
+
+/* --- Form Inputs & Selects (Dùng chung cho Modal) --- */
+.form-input,
+.form-select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  color: var(--text-dark);
+  background-color: #fcfdff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box; /* Quan trọng */
+}
+
+.form-input::placeholder {
+  color: #a0a7b5;
+}
+
+.form-input:focus,
+.form-select:focus {
+  border-color: var(--primary-color); /* Màu chủ đạo khi focus */
+  box-shadow: 0 0 0 3px rgba(62, 62, 214, 0.2);
+  outline: none;
+}
+
+/* --- Buttons Styling --- */
+.btn-primary, .btn-success, .btn-warning, .btn-danger, .btn-info, .btn-secondary {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-primary { background-color: var(--primary-color); color: var(--white); }
+.btn-success { background-color: var(--success); color: var(--white); }
+.btn-warning { background-color: var(--warning); color: var(--text-dark); }
+.btn-danger { background-color: var(--danger); color: var(--white); }
+.btn-info { background-color: var(--info); color: var(--white); }
+.btn-secondary { background-color: var(--secondary); color: var(--white); }
+
+.btn-primary:hover { background-color: var(--primary-dark); transform: translateY(-1px); }
+.btn-success:hover { background-color: #218838; transform: translateY(-1px); }
+.btn-warning:hover { background-color: #e0a800; transform: translateY(-1px); }
+.btn-danger:hover { background-color: #c82333; transform: translateY(-1px); }
+.btn-info:hover { background-color: #138496; transform: translateY(-1px); }
+.btn-secondary:hover { background-color: #5a6268; transform: translateY(-1px); }
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 0.9rem;
+}
+.me-2 {
+  margin-right: 0.5rem;
+}
+
+
+/* --- Data Table --- */
+.container-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  background-color: var(--white);
+}
+
+.container-table thead th {
+  background-color: var(--primary-color);
+  color: var(--white);
+  padding: 15px 20px;
+  text-align: left;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.container-table tbody td {
+  padding: 12px 20px;
+  border-bottom: 1px solid #eef2f6;
+  color: var(--text-light);
+  vertical-align: middle;
+}
+
+.container-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.container-table tbody tr:hover {
+  background-color: var(--primary-light);
+}
+
+/* --- Cargo Details (Hàng con) --- */
+.cargo-details-row td {
+  background-color: var(--bg-main);
+  padding: 20px;
+  border-top: 1px solid #eef2f6;
+}
+
+.cargo-details-row strong {
+  color: var(--primary-dark);
+  margin-bottom: 10px;
+  display: block;
+  font-size: 1.1rem;
+}
+
+.cargo-details-row ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 15px;
+}
+
+.cargo-details-row ul li {
+  background-color: #eef2ff;
+  border: 1px solid #dcdcfe;
+  padding: 8px 12px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+}
+
+/* --- Form thêm Cargo (trong hàng con) --- */
+.cargo-add-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.cargo-add-form .form-input {
+  flex: 1;
+  min-width: 120px;
+}
+
+/* --- CSS CHO MODAL --- */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 500px;
+  animation: slideIn 0.3s ease-out;
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: var(--bg-main);
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--primary-dark);
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  font-size: 2.2rem;
+  line-height: 1;
+  color: #aaa;
+  cursor: pointer;
+  padding: 0;
+}
+.modal-close-btn:hover {
+  color: var(--text-dark);
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+/* Form BÊN TRONG Modal */
+.container-form-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Nút bấm BÊN TRONG Modal */
+.form-actions-modal {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 1rem;
+}
+
+/* --- Responsive cho Bảng (Mobile) --- */
+@media (max-width: 768px) {
+  .container-table thead {
+    display: none;
+  }
+  .container-table, .container-table tbody, .container-table tr, .container-table td {
+    display: block;
+    width: 100%;
+  }
+  .container-table tr {
+    margin-bottom: 1rem;
+    border: 1px solid #eef2f6;
+    border-radius: 10px;
+    box-shadow: var(--shadow-light);
+  }
+  .container-table td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+    border: none;
+  }
+  .container-table td[data-label]::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 10px;
+    width: calc(50% - 20px);
+    padding-right: 10px;
+    white-space: nowrap;
+    text-align: left;
+    font-weight: 600;
+    color: var(--primary-dark);
+  }
+  .container-table td[data-label="Actions"] {
+    text-align: center;
+    padding-left: 0;
+  }
+  .cargo-add-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* --- Animations --- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
